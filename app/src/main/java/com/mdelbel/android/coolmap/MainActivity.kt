@@ -9,11 +9,12 @@ import com.mdelbel.android.coolmap.data.permissions.RequesterActivityBinder
 class MainActivity : AppCompatActivity(), LifecycleOwner {
 
     private val permissionRequester = MapPermissionsRequester()
-    private val requesterActivityBinder = RequesterActivityBinder(permissionRequester, this)
+    private lateinit var requesterActivityBinder: RequesterActivityBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        requesterActivityBinder = RequesterActivityBinder(permissionRequester, this)
         lifecycle.addObserver(requesterActivityBinder)
     }
 
