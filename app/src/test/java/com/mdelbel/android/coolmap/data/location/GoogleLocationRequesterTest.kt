@@ -1,16 +1,33 @@
-package com.mdelbel.android.domain.data.location
+package com.mdelbel.android.coolmap.data.location
 
 import android.location.Geocoder
+import android.location.Location
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
+import com.mdelbel.android.domain.location.LocationNoFounded
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Test
+import org.mockito.Mockito.mock
 
+//TODO terminar
 class GoogleLocationRequesterTest {
 
     @Test
     fun `request location with last location not founded should returns location not founded`() {
-        val locationClient = Mockito.mock(FusedLocationProviderClient::class.java)
-        val geoCoder = Mockito.mock(Geocoder::class.java)
+        // mock google client
+        val locationClient = mock(FusedLocationProviderClient::class.java)
+        val taskObtainLocation = mock(Task::class.java) as Task<Location>
+        whenever(locationClient.lastLocation).thenReturn(taskObtainLocation)
+        whenever(taskObtainLocation.addOnSuccessListener(any<OnSuccessListener<Location>>())).thenAnswer(null)
+        // mock geo coder
+        val geoCoder = mock(Geocoder::class.java)
         val requester = GoogleLocationRequester(locationClient, geoCoder)
 
+        requester.requestLocation().subscribe {
+            assert(it is LocationNoFounded)
+        }
     }
 }
 

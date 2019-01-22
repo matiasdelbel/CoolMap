@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.mdelbel.android.data.permissions.PermissionsRequester
+import com.mdelbel.android.data.requester.PermissionsRequester
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
 import com.mdelbel.android.domain.permissions.PermissionsResult

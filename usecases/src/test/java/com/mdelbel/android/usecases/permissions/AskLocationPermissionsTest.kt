@@ -1,6 +1,6 @@
 package com.mdelbel.android.usecases.permissions
 
-import com.mdelbel.android.data.permissions.PermissionsRequester
+import com.mdelbel.android.data.requester.PermissionsRequester
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
 import org.mockito.Mockito.mock

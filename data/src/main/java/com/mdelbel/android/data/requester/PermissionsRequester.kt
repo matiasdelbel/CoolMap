@@ -1,4 +1,4 @@
-package com.mdelbel.android.data.permissions
+package com.mdelbel.android.data.requester
 
 import com.mdelbel.android.domain.permissions.PermissionsResult
 import io.reactivex.Observable

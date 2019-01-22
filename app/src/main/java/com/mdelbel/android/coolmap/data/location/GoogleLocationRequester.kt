@@ -3,7 +3,7 @@ package com.mdelbel.android.coolmap.data.location
 import android.location.Address
 import android.location.Geocoder
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.mdelbel.android.data.location.LocationRequester
+import com.mdelbel.android.data.requester.LocationRequester
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationNoFounded
 import io.reactivex.Observable

@@ -1,6 +1,6 @@
 package com.mdelbel.android.usecases.location
 
-import com.mdelbel.android.data.location.LocationRequester
+import com.mdelbel.android.data.requester.LocationRequester
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
 import org.mockito.Mockito.mock
