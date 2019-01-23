@@ -5,7 +5,7 @@ import com.mdelbel.android.domain.place.Country
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 
-class MemoryDataSource : CityDataSource {
+class MemoryCityDataSource : CityDataSource {
 
     private var citiesCache = Cities()
 

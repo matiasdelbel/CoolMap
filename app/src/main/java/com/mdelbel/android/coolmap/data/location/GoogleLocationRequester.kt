@@ -4,8 +4,8 @@ import android.location.Address
 import android.location.Geocoder
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mdelbel.android.data.requester.LocationRequester
-import com.mdelbel.android.domain.location.Location
-import com.mdelbel.android.domain.location.LocationNoFounded
+import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.UserLocationNoFounded
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import android.location.Location as AndroidLocation
@@ -15,11 +15,11 @@ class GoogleLocationRequester(
     private val geoCoder: Geocoder
 ) : LocationRequester {
 
-    private lateinit var resultEmitter: ObservableEmitter<Location>
+    private lateinit var resultEmitter: ObservableEmitter<UserLocation>
 
     @Suppress("MissingPermission")
-    override fun requestLocation(): Observable<Location> {
-        val requestResult = Observable.create<Location> { resultEmitter = it }
+    override fun requestLocation(): Observable<UserLocation> {
+        val requestResult = Observable.create<UserLocation> { resultEmitter = it }
         locationClient.lastLocation.addOnSuccessListener { location: AndroidLocation? ->
             when {
                 isNotFounded(location) -> publishNotFound()
@@ -46,10 +46,10 @@ class GoogleLocationRequester(
     }
 
     private fun publishNotFound() {
-        resultEmitter.onNext(LocationNoFounded)
+        resultEmitter.onNext(UserLocationNoFounded)
     }
 
     private fun publish(address: Address) {
-        resultEmitter.onNext(Location(address.latitude, address.longitude, address.locality, address.countryName))
+        resultEmitter.onNext(UserLocation(address.latitude, address.longitude, address.locality, address.countryName))
     }
 }
