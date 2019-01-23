@@ -1,12 +1,17 @@
 package com.mdelbel.android.domain.place
 
-import com.mdelbel.android.domain.location.Location
+import com.mdelbel.android.domain.location.UserLocation
 
-class Cities(private val cities: List<City>) {
+class Cities(private val cities: List<CityDetail>) {
 
-    fun pickMatchingCity(locationToCheck: Location): City {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun pickCityOn(location: UserLocation): CityDetail {
+        val locationToCheck = location.asLocation()
+        var matchingCity: CityDetail = NullCity
+
+        cities.forEach {
+            it.invokeIfContain(locationToCheck = locationToCheck, ifContain = { matchingCity = it })
+        }
+
+        return matchingCity
     }
-
-
 }
