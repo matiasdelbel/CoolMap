@@ -47,9 +47,11 @@ class GoogleLocationRequester(
 
     private fun publishNotFound() {
         resultEmitter.onNext(UserLocationNoFounded)
+        resultEmitter.onComplete()
     }
 
     private fun publish(address: Address) {
         resultEmitter.onNext(UserLocation(address.latitude, address.longitude, address.locality, address.countryName))
+        resultEmitter.onComplete()
     }
 }

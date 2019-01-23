@@ -1,3 +1,3 @@
 package com.mdelbel.android.domain.permissions
 
-class PermissionsDenied : PermissionsResult
+object PermissionsDenied : PermissionsResult

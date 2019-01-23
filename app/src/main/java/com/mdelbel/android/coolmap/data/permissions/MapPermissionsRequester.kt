@@ -1,10 +1,10 @@
 package com.mdelbel.android.coolmap.data.permissions
 
 import android.Manifest
-import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat.checkSelfPermission
 import com.mdelbel.android.data.requester.PermissionsRequester
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
@@ -21,7 +21,7 @@ class MapPermissionsRequester : PermissionsRequester {
         val requestResult = Observable.create<PermissionsResult> { resultEmitter = it }
         when {
             shouldAskForPermission() -> askForPermission()
-            else -> resultEmitter.onNext(PermissionsGranted())
+            else -> publishResult(PermissionsGranted)
         }
 
         return requestResult
@@ -38,22 +38,25 @@ class MapPermissionsRequester : PermissionsRequester {
     internal fun onRequestPermissionsResult(requestCode: Int, grantResults: IntArray) {
         if (requestCode == PERMISSIONS_REQUEST_LOCATION) {
             when {
-                arePermissionGranted(grantResults) -> resultEmitter.onNext(PermissionsGranted())
-                else -> resultEmitter.onNext(PermissionsDenied())
+                arePermissionGranted(grantResults) -> publishResult(PermissionsGranted)
+                else -> publishResult(PermissionsDenied)
             }
         }
     }
 
+    private fun publishResult(permissionsResult: PermissionsResult) {
+        resultEmitter.onNext(permissionsResult)
+        resultEmitter.onComplete()
+    }
+
     private fun shouldAskForPermission() =
-        ContextCompat.checkSelfPermission(requesterActivity!!, LOCATION_PERMISSION) != PackageManager.PERMISSION_GRANTED
+        checkSelfPermission(requesterActivity!!, LOCATION_PERMISSION) != PERMISSION_GRANTED
 
     private fun askForPermission() =
-        ActivityCompat.requestPermissions(
-            requesterActivity!!, arrayOf(LOCATION_PERMISSION), PERMISSIONS_REQUEST_LOCATION
-        )
+        requestPermissions(requesterActivity!!, arrayOf(LOCATION_PERMISSION), PERMISSIONS_REQUEST_LOCATION)
 
     private fun arePermissionGranted(grantResults: IntArray) =
-        grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED
 }
 
 private const val PERMISSIONS_REQUEST_LOCATION = 1605
