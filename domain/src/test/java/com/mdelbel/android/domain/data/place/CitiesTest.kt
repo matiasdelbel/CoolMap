@@ -1,10 +1,7 @@
 package com.mdelbel.android.domain.data.place
 
 import com.mdelbel.android.domain.location.UserLocation
-import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.CityDetail
-import com.mdelbel.android.domain.place.Location
-import com.mdelbel.android.domain.place.NullCity
+import com.mdelbel.android.domain.place.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -28,6 +25,18 @@ class CitiesTest {
         val userLocation = location()
 
         val result = cities.pickCityOn(userLocation)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `obtain by country should filter countries by country id`() {
+        val cityFiltered = CityDetail(countryCode = "AR")
+        val cityNotFiltered = CityDetail(countryCode = "BR")
+        val expected = Cities(listOf(cityFiltered))
+        val cities = Cities(listOf(cityFiltered, cityNotFiltered))
+
+        val result = cities.obtainBy(Country(code = "AR", name = "Argentina"))
 
         assertEquals(expected, result)
     }

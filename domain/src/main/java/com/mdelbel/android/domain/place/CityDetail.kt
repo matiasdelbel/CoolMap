@@ -10,4 +10,8 @@ open class CityDetail(
     open fun invokeIfContain(locationToCheck: Location, ifContain: () -> Unit = {}, ifNotContain: () -> Unit = {}) {
         workingArea.invokeIfContain(locationToCheck, ifContain, ifNotContain)
     }
+
+    open fun invokeIfFrom(country: Country, ifIsFrom: () -> Unit = {}, ifIsNotFrom: () -> Unit = {}) {
+        country.invokeIfMe(countryCode, ifIsMe = ifIsFrom, ifIsNotMe = ifIsNotFrom)
+    }
 }
