@@ -1,9 +1,9 @@
 package com.mdelbel.android.usecases.place
 
-import com.mdelbel.android.data.datasource.CityDataSource
+import com.mdelbel.android.data.repository.CityRepository
 import com.mdelbel.android.domain.place.Country
 
-class FilterCitiesByCountry(private val dataSource: CityDataSource) {
+class FilterCitiesByCountry(private val repository: CityRepository) {
 
-    operator fun invoke(country: Country) = dataSource.obtainBy(country)
+    operator fun invoke(country: Country) = repository.obtainBy(country)
 }
