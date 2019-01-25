@@ -1,9 +1,9 @@
 package com.mdelbel.android.data.requester
 
 import com.mdelbel.android.domain.permissions.PermissionsResult
-import io.reactivex.Observable
+import io.reactivex.Single
 
 interface PermissionsRequester {
 
-    fun requestLocationPermissions(): Observable<PermissionsResult>
+    fun requestLocationPermissions(): Single<PermissionsResult>
 }

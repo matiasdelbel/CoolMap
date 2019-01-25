@@ -9,16 +9,18 @@ import com.mdelbel.android.data.requester.PermissionsRequester
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
 import com.mdelbel.android.domain.permissions.PermissionsResult
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
+import javax.inject.Singleton
 
+@Singleton
 class MapPermissionsRequester : PermissionsRequester {
 
     private var requesterActivity: AppCompatActivity? = null
-    private lateinit var resultEmitter: ObservableEmitter<PermissionsResult>
+    private lateinit var resultEmitter: SingleEmitter<PermissionsResult>
 
-    override fun requestLocationPermissions(): Observable<PermissionsResult> {
-        val requestResult = Observable.create<PermissionsResult> { resultEmitter = it }
+    override fun requestLocationPermissions(): Single<PermissionsResult> {
+        val requestResult = Single.create<PermissionsResult> { resultEmitter = it }
         when {
             shouldAskForPermission() -> askForPermission()
             else -> publishResult(PermissionsGranted)
@@ -44,10 +46,7 @@ class MapPermissionsRequester : PermissionsRequester {
         }
     }
 
-    private fun publishResult(permissionsResult: PermissionsResult) {
-        resultEmitter.onNext(permissionsResult)
-        resultEmitter.onComplete()
-    }
+    private fun publishResult(permissionsResult: PermissionsResult) = resultEmitter.onSuccess(permissionsResult)
 
     private fun shouldAskForPermission() =
         checkSelfPermission(requesterActivity!!, LOCATION_PERMISSION) != PERMISSION_GRANTED

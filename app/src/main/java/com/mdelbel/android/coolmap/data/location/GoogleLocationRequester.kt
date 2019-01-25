@@ -10,6 +10,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import android.location.Location as AndroidLocation
 
+//TODO FIX: wrap Google dependency on a helper class
 class GoogleLocationRequester(
     private val locationClient: FusedLocationProviderClient,
     private val geoCoder: Geocoder

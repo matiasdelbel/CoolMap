@@ -7,6 +7,10 @@ open class CityDetail(
     private val workingArea: WorkingArea = WorkingArea()
 ) {
 
+    fun code() = code
+
+    fun name() = name
+
     open fun invokeIfContain(locationToCheck: Location, ifContain: () -> Unit = {}, ifNotContain: () -> Unit = {}) {
         workingArea.invokeIfContain(locationToCheck, ifContain, ifNotContain)
     }
