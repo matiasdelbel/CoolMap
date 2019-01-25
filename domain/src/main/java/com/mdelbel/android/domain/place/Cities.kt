@@ -5,11 +5,10 @@ import com.mdelbel.android.domain.location.UserLocation
 class Cities(private val cities: List<CityDetail> = emptyList()) {
 
     fun pickCityOn(location: UserLocation): CityDetail {
-        val locationToCheck = location.asLocation()
         var matchingCity: CityDetail = NullCity
 
         cities.forEach {
-            it.invokeIfContain(locationToCheck = locationToCheck, ifContain = { matchingCity = it })
+            it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it })
         }
 
         return matchingCity
@@ -24,7 +23,7 @@ class Cities(private val cities: List<CityDetail> = emptyList()) {
         return Cities(citiesOfCountry)
     }
 
-    fun asCityDeatilsList() = cities
+    fun asCityDetailsList() = cities
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

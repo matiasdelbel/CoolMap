@@ -1,5 +1,7 @@
 package com.mdelbel.android.domain.place
 
+import com.mdelbel.android.domain.location.UserLocation
+
 open class CityDetail(
     private val code: String = "",
     private val name: String = "",
@@ -11,11 +13,11 @@ open class CityDetail(
 
     fun name() = name
 
-    open fun invokeIfContain(locationToCheck: Location, ifContain: () -> Unit = {}, ifNotContain: () -> Unit = {}) {
-        workingArea.invokeIfContain(locationToCheck, ifContain, ifNotContain)
-    }
-
-    open fun invokeIfFrom(country: Country, ifIsFrom: () -> Unit = {}, ifIsNotFrom: () -> Unit = {}) {
-        country.invokeIfMe(countryCode, ifIsMe = ifIsFrom, ifIsNotMe = ifIsNotFrom)
+    open fun invokeIfContain(locationToCheck: UserLocation, ifContain: () -> Unit = {}, ifNotContain: () -> Unit = {}) {
+        workingArea.invokeIfContain(
+            locationToCheck.asLocation(),
+            { locationToCheck.invokeIfOnCountry(countryCode, ifContain, ifNotContain) },
+            ifNotContain
+        )
     }
 }
