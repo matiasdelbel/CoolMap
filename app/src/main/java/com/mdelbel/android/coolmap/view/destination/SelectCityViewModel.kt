@@ -19,7 +19,7 @@ import com.mdelbel.android.usecases.place.FilterCitiesByCountry
 import com.mdelbel.android.usecases.place.ObtainCities
 import com.mdelbel.android.usecases.place.ObtainCountries
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
@@ -31,19 +31,19 @@ class SelectCityViewModel @Inject constructor(
     private val filterCitiesByCountryUseCase: FilterCitiesByCountry
 ) : ViewModel() {
 
+    private val compositeDisposable = CompositeDisposable()
     private val citiesStream = obtainCitiesUseCase()
-    lateinit var askPermissionDisposable: Disposable
-    lateinit var selectGeolocationCityDisposable: Disposable
 
     internal val screenState = MutableLiveData<ViewState>().apply { setValue(LoadingState()) }
 
     fun askPermissions() {
-        askPermissionDisposable = askPermissionUseCase().subscribe { it ->
-            when (it) {
-                is PermissionsGranted -> selectGeolocationCityIfCan()
-                is PermissionsDenied -> requestAvailableCountries()
-            }
-        }
+        compositeDisposable.add(
+            askPermissionUseCase().subscribe { it ->
+                when (it) {
+                    is PermissionsGranted -> selectGeolocationCityIfCan()
+                    is PermissionsDenied -> requestAvailableCountries()
+                }
+            })
     }
 
     fun countrySelected(country: Country) {
@@ -55,19 +55,17 @@ class SelectCityViewModel @Inject constructor(
     fun citySeleted(city: CityDetail) = notifyCitySelection(city)
 
     private fun selectGeolocationCityIfCan() {
-        obtainLocationUseCase().subscribe {
-
-        }
-        selectGeolocationCityDisposable = Observable.zip(obtainLocationUseCase(), citiesStream,
-            BiFunction<UserLocation, Cities, () -> Any> { location, cities ->
-                val matchingCity = cities.pickCityOn(location)
-                when (matchingCity) {
-                    NullCity -> return@BiFunction { requestAvailableCountries() }
-                    else -> return@BiFunction { notifyCitySelection(matchingCity) }
-                }
-            })
-            .doOnError { requestAvailableCountries() }
-            .subscribe { functionToExecute -> functionToExecute() }
+        compositeDisposable.add(
+            Observable.zip(obtainLocationUseCase(), citiesStream,
+                BiFunction<UserLocation, Cities, () -> Any> { location, cities ->
+                    val matchingCity = cities.pickCityOn(location)
+                    when (matchingCity) {
+                        NullCity -> return@BiFunction { requestAvailableCountries() }
+                        else -> return@BiFunction { notifyCitySelection(matchingCity) }
+                    }
+                })
+                .doOnError { requestAvailableCountries() }
+                .subscribe { functionToExecute -> functionToExecute() })
     }
 
     private fun requestAvailableCountries() {
@@ -83,8 +81,7 @@ class SelectCityViewModel @Inject constructor(
     private fun notifyCitySelection(city: CityDetail) = screenState.postValue(CitySelectedState(city))
 
     override fun onCleared() {
-        askPermissionDisposable.dispose()
-        selectGeolocationCityDisposable.dispose() //TODO no siempre se inicializa
+        compositeDisposable.dispose()
         super.onCleared()
     }
 }

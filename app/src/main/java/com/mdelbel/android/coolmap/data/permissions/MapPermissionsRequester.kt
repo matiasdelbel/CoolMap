@@ -11,22 +11,18 @@ import com.mdelbel.android.domain.permissions.PermissionsGranted
 import com.mdelbel.android.domain.permissions.PermissionsResult
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
-import javax.inject.Singleton
 
-@Singleton
 class MapPermissionsRequester : PermissionsRequester {
 
     private var requesterActivity: AppCompatActivity? = null
     private lateinit var resultEmitter: SingleEmitter<PermissionsResult>
 
-    override fun requestLocationPermissions(): Single<PermissionsResult> {
-        val requestResult = Single.create<PermissionsResult> { resultEmitter = it }
+    override fun requestLocationPermissions(): Single<PermissionsResult> = Single.create<PermissionsResult> {
+        resultEmitter = it
         when {
             shouldAskForPermission() -> askForPermission()
             else -> publishResult(PermissionsGranted)
         }
-
-        return requestResult
     }
 
     internal fun attach(requesterActivity: AppCompatActivity) {
