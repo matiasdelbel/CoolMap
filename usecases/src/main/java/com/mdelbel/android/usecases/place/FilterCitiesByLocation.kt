@@ -10,9 +10,8 @@ import javax.inject.Inject
 
 class FilterCitiesByLocation @Inject constructor(private val repository: CityRepository) {
 
-    operator fun invoke(userLocation: UserLocation): Observable<CityDetail> =
-        repository
-            .obtainBy(userLocation)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+    operator fun invoke(userLocation: UserLocation): Observable<CityDetail> = repository
+        .obtainBy(userLocation)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }

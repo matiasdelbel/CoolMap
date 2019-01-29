@@ -5,6 +5,5 @@ import javax.inject.Inject
 
 class ObtainLocation @Inject constructor(private val locationRequester: LocationRequester) {
 
-    operator fun invoke() =
-        locationRequester.requestLocation()
+    operator fun invoke() = locationRequester.requestLocation()
 }
