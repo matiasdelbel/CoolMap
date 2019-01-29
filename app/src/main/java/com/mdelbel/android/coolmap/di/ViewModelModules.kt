@@ -2,7 +2,7 @@ package com.mdelbel.android.coolmap.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mdelbel.android.coolmap.view.destination.SelectCityViewModel
+import com.mdelbel.android.coolmap.view.destination.SelectDestinationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,6 +19,6 @@ abstract class SelectCityViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SelectCityViewModel::class)
-    abstract fun bindViewModel(viewModel: SelectCityViewModel): ViewModel
+    @ViewModelKey(SelectDestinationViewModel::class)
+    abstract fun bindViewModel(viewModel: SelectDestinationViewModel): ViewModel
 }

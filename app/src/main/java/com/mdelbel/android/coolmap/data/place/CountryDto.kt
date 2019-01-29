@@ -1,33 +1,16 @@
 package com.mdelbel.android.coolmap.data.place
 
-import com.google.maps.android.PolyUtil
-import com.mdelbel.android.domain.place.Area
-import com.mdelbel.android.domain.place.CityDetail
-import com.mdelbel.android.domain.place.Location
-import com.mdelbel.android.domain.place.WorkingArea
+import com.mdelbel.android.domain.place.Country
 
 /**
  *
- * { working_area": [
- *      "tanxBp`_kG"
- *   ],
- *   "code": "CAI",
- *   "name": "Cairo",
- *   "country_code": "EG"
+ * {
+ *   "code": "BR",
+ *   "name": "Brazil"
  * }
  *
  */
-data class CountryDto(val code: String, val name: String, val country_code: String, val working_area: List<String>) {
+data class CountryDto(val code: String, val name: String) {
 
-    fun asCity(): CityDetail {
-        val workingArea = mutableListOf<Area>()
-        working_area.forEach { encodedArea ->
-            val areas = mutableListOf<Location>()
-            val areaAsLatLngPoints = PolyUtil.decode(encodedArea) //TODO
-            areaAsLatLngPoints.forEach { areas.add(Location(it.latitude, it.longitude)) }
-            workingArea.add(Area(areas))
-        }
-
-        return CityDetail(code, name, country_code, WorkingArea(workingArea))
-    }
+    fun asCountry() = Country(code, name)
 }

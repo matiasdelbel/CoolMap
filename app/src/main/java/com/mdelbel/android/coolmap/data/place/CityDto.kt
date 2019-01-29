@@ -23,10 +23,11 @@ data class CityDto(val code: String, val name: String, val country_code: String,
         val workingArea = mutableListOf<Area>()
         working_area.forEach { encodedArea ->
             val areas = mutableListOf<Location>()
-            val areaAsLatLngPoints = PolyUtil.decode(encodedArea) //TODO
+            val areaAsLatLngPoints = PolyUtil.decode(encodedArea)
             areaAsLatLngPoints.forEach { areas.add(Location(it.latitude, it.longitude)) }
             workingArea.add(Area(areas))
         }
+
         return CityDetail(code, name, country_code, WorkingArea(workingArea))
     }
 }

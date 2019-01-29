@@ -16,7 +16,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             tools:text="BA"/>
 
     <TextView
@@ -25,18 +25,9 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/item_info_code"
             android:layout_marginLeft="16dp"
             tools:text="Buenos Aires"/>
-
-    <TextView
-            android:id="@+id/item_info_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/item_info_title"
-            app:layout_constraintLeft_toRightOf="@id/item_info_code"
-            android:layout_marginLeft="16dp"
-            tools:text="Argentina"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

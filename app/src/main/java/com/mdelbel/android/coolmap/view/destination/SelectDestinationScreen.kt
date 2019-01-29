@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.data.permissions.MapPermissionsRequester
 import com.mdelbel.android.coolmap.data.permissions.RequesterActivityBinder
-import com.mdelbel.android.coolmap.view.destination.state.ItemViewModelFactory
 import com.mdelbel.android.coolmap.view.destination.state.ViewState
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
@@ -21,7 +20,7 @@ import com.mdelbel.android.domain.place.Countries
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class SelectCityScreen : AppCompatActivity(), DestinationView {
+class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
 
     @Inject
     lateinit var permissionRequester: MapPermissionsRequester
@@ -33,8 +32,8 @@ class SelectCityScreen : AppCompatActivity(), DestinationView {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: SelectCityViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(SelectCityViewModel::class.java)
+    private val viewModel: SelectDestinationViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(SelectDestinationViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +48,7 @@ class SelectCityScreen : AppCompatActivity(), DestinationView {
         loading = findViewById(R.id.screen_main_loading)
 
         attachRequesterToActivity()
-        viewModel.screenState.observe(this, Observer<ViewState> { it.render(this@SelectCityScreen) })
+        viewModel.screenState.observe(this, Observer<ViewState> { it.render(this@SelectDestinationScreen) })
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -57,6 +56,10 @@ class SelectCityScreen : AppCompatActivity(), DestinationView {
         if (savedInstanceState == null) {
             viewModel.askPermissions()
         }
+    }
+
+    override fun onBackPressed() {
+        viewModel.returnsStateBefore()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) =
@@ -78,14 +81,20 @@ class SelectCityScreen : AppCompatActivity(), DestinationView {
     }
 
     override fun showCountries(countries: Countries) {
-        loading.visibility = View.GONE
-        listView.visibility = View.VISIBLE
-        viewAdapter.submitList(ItemViewModelFactory().createFrom(countries))
+        val factory = ItemViewModelFactory()
+        showList(factory.createFrom(countries) { viewModel.countrySelected(factory.extractCountry(it)) })
     }
 
     override fun showCities(cities: Cities) {
+        val factory = ItemViewModelFactory()
+        showList(factory.createFrom(cities) { viewModel.citySelected(factory.extractCity(it)) })
+    }
+
+    override fun exit() = finish()
+
+    private fun showList(itemModels: List<ItemViewModel>) {
         loading.visibility = View.GONE
         listView.visibility = View.VISIBLE
-        viewAdapter.submitList(ItemViewModelFactory().createFrom(cities))
+        viewAdapter.submitList(itemModels)
     }
 }

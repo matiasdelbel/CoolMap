@@ -4,6 +4,7 @@ import com.mdelbel.android.data.datasource.CountryDataSource
 import com.mdelbel.android.data.datasource.MemoryCountryDataSource
 import com.mdelbel.android.domain.place.Countries
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,11 +18,15 @@ class CountryRepository @Inject constructor(
         return Observable.create {
             val countriesOnCache = cache.obtainAll()
             countriesOnCache.invokeIfEmpty(
-                {
-                    cache.save(origin.obtainAll())
-                    it.onNext(cache.obtainAll())
-                },
-                { it.onNext(countriesOnCache) })
+                ifIsEmpty = { updateCachePublishingResult(it) },
+                ifIsNotEmpty = { it.onNext(countriesOnCache) })
         }
+    }
+
+    private fun updateCachePublishingResult(emitter: ObservableEmitter<Countries>) = try {
+        cache.save(origin.obtainAll())
+        emitter.onNext(cache.obtainAll())
+    } catch (e: Exception) {
+        emitter.onError(e)
     }
 }

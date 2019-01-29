@@ -1,20 +1,20 @@
 package com.mdelbel.android.coolmap.view.ddestination.state
 
 import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
-import com.mdelbel.android.coolmap.view.destination.state.LoadingState
+import com.mdelbel.android.coolmap.view.destination.state.ExitState
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
 import org.mockito.Mockito.mock
 
-class LoadingStateTest {
+class ExitStateTest {
 
     @Test
-    fun `render should call loading on view`() {
+    fun `render should call exit on view`() {
         val view = mock(SelectDestinationView::class.java)
-        val loadingState = LoadingState()
+        val exitState = ExitState
 
-        loadingState.render(view)
+        exitState.render(view)
 
-        verify(view).loading()
+        verify(view).exit()
     }
 }

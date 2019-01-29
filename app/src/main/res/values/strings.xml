@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">CoolMap</string>
+
+    <string name="select_destination_error_cities_not_found">No es posible cargar las ciudades</string>
+    <string name="select_destination_error_countries_not_found">No es posible cargar los paises</string>
 </resources>

@@ -1,9 +1,8 @@
 package com.mdelbel.android.coolmap.view.destination.state
 
-import com.mdelbel.android.coolmap.view.destination.DestinationView
-import com.mdelbel.android.domain.place.Countries
+import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
 
-class ExitState(private val countries: Countries) : ViewState {
+object ExitState : ViewState {
 
-    override fun render(view: DestinationView) = view.showCountries(countries)
+    override fun render(view: SelectDestinationView) = view.exit()
 }

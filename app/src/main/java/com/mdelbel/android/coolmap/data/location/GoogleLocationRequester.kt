@@ -11,7 +11,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import android.location.Location as AndroidLocation
 
-//TODO FIX: wrap Google dependency on a helper class
+// FIX: wrap Google dependency on a helper class
 class GoogleLocationRequester(
     private val locationClient: FusedLocationProviderClient,
     private val geoCoder: Geocoder
@@ -19,7 +19,6 @@ class GoogleLocationRequester(
 
     private lateinit var resultEmitter: ObservableEmitter<UserLocation>
 
-    //TODO podria ser Single
     @Suppress("MissingPermission")
     override fun requestLocation(): Observable<UserLocation> {
         val requestResult = Observable.create<UserLocation> { resultEmitter = it }
@@ -55,12 +54,7 @@ class GoogleLocationRequester(
 
     private fun publish(location: Address) {
         resultEmitter.onNext(
-            UserLocation(
-                location.latitude,
-                location.longitude,
-                location.locality,
-                Country(location.countryCode, location.countryName)
-            )
+            UserLocation(location.latitude, location.longitude, Country(location.countryCode, location.countryName))
         )
         resultEmitter.onComplete()
     }

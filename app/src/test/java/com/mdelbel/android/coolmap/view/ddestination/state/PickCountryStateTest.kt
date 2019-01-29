@@ -1,6 +1,6 @@
 package com.mdelbel.android.coolmap.view.ddestination.state
 
-import com.mdelbel.android.coolmap.view.destination.DestinationView
+import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
 import com.mdelbel.android.coolmap.view.destination.state.PickCountryState
 import com.mdelbel.android.domain.place.Countries
 import com.nhaarman.mockitokotlin2.verify
@@ -11,7 +11,7 @@ class PickCountryStateTest {
 
     @Test
     fun `render should call show countries on view`() {
-        val view = mock(DestinationView::class.java)
+        val view = mock(SelectDestinationView::class.java)
         val countries = Countries()
         val pickCountryState = PickCountryState(countries)
 

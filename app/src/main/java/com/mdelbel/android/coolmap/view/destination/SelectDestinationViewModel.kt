@@ -2,10 +2,8 @@ package com.mdelbel.android.coolmap.view.destination
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mdelbel.android.coolmap.view.destination.state.CitySelectedState
-import com.mdelbel.android.coolmap.view.destination.state.LoadingState
-import com.mdelbel.android.coolmap.view.destination.state.PickCityState
-import com.mdelbel.android.coolmap.view.destination.state.ViewState
+import com.mdelbel.android.coolmap.view.destination.state.*
+import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
 import com.mdelbel.android.domain.place.CityDetail
@@ -15,18 +13,22 @@ import com.mdelbel.android.usecases.location.ObtainLocation
 import com.mdelbel.android.usecases.permissions.AskLocationPermissions
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry
 import com.mdelbel.android.usecases.place.FilterCitiesByLocation
+import com.mdelbel.android.usecases.place.ObtainCountries
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class SelectCityViewModel @Inject constructor(
+class SelectDestinationViewModel @Inject constructor(
     private val askPermissionUseCase: AskLocationPermissions,
     private val obtainLocationUseCase: ObtainLocation,
     private val filterCitiesByLocationUseCase: FilterCitiesByLocation,
+    private val obtainCountriesUseCase: ObtainCountries,
     private val filterCitiesByCountryUseCase: FilterCitiesByCountry
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     internal val screenState = MutableLiveData<ViewState>().apply { setValue(LoadingState()) }
+
+    private val stackMemento = StateStack()
 
     fun askPermissions() = compositeDisposable.add(askPermissionAndListenerResponse())
 
@@ -39,32 +41,38 @@ class SelectCityViewModel @Inject constructor(
 
     fun countrySelected(country: Country) {
         screenState.postValue(LoadingState())
-        val cities = filterCitiesByCountryUseCase(country)
-        screenState.postValue(PickCityState(cities))
+        compositeDisposable.add(filterCitiesByCountryUseCase(country).subscribe {
+            val state = PickCityState(it)
+            stackMemento.queue(state)
+            screenState.postValue(state)
+        })
     }
 
-    fun citySeleted(city: CityDetail) = notifyCitySelection(city)
+    fun citySelected(city: CityDetail) = notifyCitySelection(city)
 
     private fun selectGeolocationCityIfCan() = compositeDisposable.add(requestLocationAndListenerResponse())
 
+    fun returnsStateBefore() = screenState.postValue(stackMemento.dequeue())
+
     private fun requestLocationAndListenerResponse() = obtainLocationUseCase().subscribe { it ->
-        compositeDisposable.add(
-            filterCitiesByLocationUseCase(it).subscribe { matchingCity ->
-                when (matchingCity) {
-                    NullCity -> requestAvailableCountries()
-                    else -> notifyCitySelection(matchingCity)
-                }
-            })
+        compositeDisposable.add(requestCitiesForLocationAndListenerResponse(it))
     }
+
+    private fun requestCitiesForLocationAndListenerResponse(location: UserLocation) =
+        filterCitiesByLocationUseCase(location).subscribe { matchingCity ->
+            when (matchingCity) {
+                NullCity -> requestAvailableCountries()
+                else -> notifyCitySelection(matchingCity)
+            }
+        }
 
     private fun requestAvailableCountries() {
         screenState.postValue(LoadingState())
-        /* TODO obtainCountriesUseCase()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe { screenState.postValue(PickCountryState(it)) }
-            .dispose()
-        */
+        compositeDisposable.add(obtainCountriesUseCase().subscribe {
+            val state = PickCountryState(it)
+            stackMemento.queue(state)
+            screenState.postValue(state)
+        })
     }
 
     private fun notifyCitySelection(city: CityDetail) = screenState.postValue(CitySelectedState(city))

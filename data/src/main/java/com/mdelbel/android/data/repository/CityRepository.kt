@@ -7,6 +7,7 @@ import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
 import com.mdelbel.android.domain.place.Country
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,10 +20,7 @@ class CityRepository @Inject constructor(
     fun obtainAll(): Observable<Cities> {
         return Observable.create {
             invokeIfIsOnCache(
-                ifCacheIsEmpty = {
-                    cache.save(origin.obtainAll())
-                    it.onNext(cache.obtainAll())
-                },
+                ifCacheIsEmpty = { updateCachePublishingResult(it) },
                 ifCacheIsNotEmpty = { it.onNext(cache.obtainAll()) })
         }
     }
@@ -30,10 +28,7 @@ class CityRepository @Inject constructor(
     fun obtainBy(userLocation: UserLocation): Observable<CityDetail> {
         return Observable.create {
             invokeIfIsOnCache(
-                ifCacheIsEmpty = {
-                    cache.save(origin.obtainAll())
-                    it.onNext(cache.obtainBy(userLocation))
-                },
+                ifCacheIsEmpty = { updateCachePublishingResult(userLocation, it) },
                 ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(userLocation)) })
         }
     }
@@ -41,10 +36,7 @@ class CityRepository @Inject constructor(
     fun obtainBy(country: Country): Observable<Cities> {
         return Observable.create {
             invokeIfIsOnCache(
-                ifCacheIsEmpty = {
-                    cache.save(origin.obtainAll())
-                    it.onNext(cache.obtainBy(country))
-                },
+                ifCacheIsEmpty = { updateCachePublishingResult(it) },
                 ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(country)) })
         }
     }
@@ -52,5 +44,23 @@ class CityRepository @Inject constructor(
     private fun invokeIfIsOnCache(ifCacheIsEmpty: () -> Unit, ifCacheIsNotEmpty: () -> Unit) {
         val citiesOnCache = cache.obtainAll()
         citiesOnCache.invokeIfEmpty(ifCacheIsEmpty, ifCacheIsNotEmpty)
+    }
+
+    private fun updateCachePublishingResult(emitter: ObservableEmitter<Cities>) {
+        try {
+            cache.save(origin.obtainAll())
+            emitter.onNext(cache.obtainAll())
+        } catch (e: Exception) {
+            emitter.onError(e)
+        }
+    }
+
+    private fun updateCachePublishingResult(userLocation: UserLocation, emitter: ObservableEmitter<CityDetail>) {
+        try {
+            cache.save(origin.obtainAll())
+            emitter.onNext(cache.obtainBy(userLocation))
+        } catch (e: Exception) {
+            emitter.onError(e)
+        }
     }
 }

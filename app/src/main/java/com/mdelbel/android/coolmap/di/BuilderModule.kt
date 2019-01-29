@@ -1,6 +1,6 @@
 package com.mdelbel.android.coolmap.di
 
-import com.mdelbel.android.coolmap.view.destination.SelectCityScreen
+import com.mdelbel.android.coolmap.view.destination.SelectDestinationScreen
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,6 +8,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class BuilderModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeSelectCityScreen(): SelectCityScreen
+    abstract fun contributeSelectCityScreen(): SelectDestinationScreen
 
 }
