@@ -1,23 +1,18 @@
 package com.mdelbel.android.data.datasource
 
+import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.Country
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
 
-class MemoryCityDataSource : CityDataSource {
+class MemoryCityDataSource(private var citiesCache: Cities = Cities()) : CityDataSource {
 
-    private var citiesCache = Cities()
-
-    private lateinit var emitter: ObservableEmitter<Cities>
-    private val cache: Observable<Cities> = Observable.create { emitter = it }
-
-    override fun obtainAll(): Observable<Cities> = cache
+    override fun obtainAll() = citiesCache
 
     internal fun save(cities: Cities) {
         citiesCache = cities
-        emitter.onNext(citiesCache)
     }
 
-    internal fun obtainBy(country: Country): Cities = citiesCache.obtainBy(country)
+    internal fun obtainBy(location: UserLocation) = citiesCache.pickCityOn(location)
+
+    internal fun obtainBy(country: Country) = citiesCache.obtainBy(country)
 }

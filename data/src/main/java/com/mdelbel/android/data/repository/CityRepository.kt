@@ -2,11 +2,11 @@ package com.mdelbel.android.data.repository
 
 import com.mdelbel.android.data.datasource.CityDataSource
 import com.mdelbel.android.data.datasource.MemoryCityDataSource
+import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.CityDetail
 import com.mdelbel.android.domain.place.Country
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,21 +16,41 @@ class CityRepository @Inject constructor(
     private val origin: CityDataSource
 ) {
 
-    private lateinit var originDisposable: Disposable
-
     fun obtainAll(): Observable<Cities> {
-        // Returns the cache data
-        val citiesOnCache = cache.obtainAll()
-        // But we refresh the cache with the origin data
-        originDisposable = origin
-            .obtainAll()
-            .subscribeOn(Schedulers.io())
-            .subscribe(
-                { cache.save(cities = it); originDisposable.dispose() },
-                { originDisposable.dispose() })
-
-        return citiesOnCache
+        return Observable.create {
+            invokeIfIsOnCache(
+                ifCacheIsEmpty = {
+                    cache.save(origin.obtainAll())
+                    it.onNext(cache.obtainAll())
+                },
+                ifCacheIsNotEmpty = { it.onNext(cache.obtainAll()) })
+        }
     }
 
-    fun obtainBy(country: Country) = cache.obtainBy(country)
+    fun obtainBy(userLocation: UserLocation): Observable<CityDetail> {
+        return Observable.create {
+            invokeIfIsOnCache(
+                ifCacheIsEmpty = {
+                    cache.save(origin.obtainAll())
+                    it.onNext(cache.obtainBy(userLocation))
+                },
+                ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(userLocation)) })
+        }
+    }
+
+    fun obtainBy(country: Country): Observable<Cities> {
+        return Observable.create {
+            invokeIfIsOnCache(
+                ifCacheIsEmpty = {
+                    cache.save(origin.obtainAll())
+                    it.onNext(cache.obtainBy(country))
+                },
+                ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(country)) })
+        }
+    }
+
+    private fun invokeIfIsOnCache(ifCacheIsEmpty: () -> Unit, ifCacheIsNotEmpty: () -> Unit) {
+        val citiesOnCache = cache.obtainAll()
+        citiesOnCache.invokeIfEmpty(ifCacheIsEmpty, ifCacheIsNotEmpty)
+    }
 }
