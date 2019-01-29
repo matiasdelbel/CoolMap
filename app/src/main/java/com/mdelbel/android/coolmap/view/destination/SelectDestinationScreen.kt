@@ -3,6 +3,7 @@ package com.mdelbel.android.coolmap.view.destination
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.data.permissions.MapPermissionsRequester
 import com.mdelbel.android.coolmap.data.permissions.RequesterActivityBinder
+import com.mdelbel.android.coolmap.view.destination.state.MessageError
 import com.mdelbel.android.coolmap.view.destination.state.ViewState
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
@@ -27,7 +29,8 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
     private lateinit var requesterActivityBinder: RequesterActivityBinder
 
     private lateinit var listView: RecyclerView
-    private lateinit var loading: ProgressBar
+    private lateinit var loadingView: ProgressBar
+    private lateinit var errorView: TextView
     private val viewAdapter: ItemAdapter = ItemAdapter()
 
     @Inject
@@ -45,7 +48,8 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
             layoutManager = LinearLayoutManager(this.context)
             adapter = viewAdapter
         }
-        loading = findViewById(R.id.screen_main_loading)
+        loadingView = findViewById(R.id.screen_main_loading)
+        errorView = findViewById(R.id.screen_main_error)
 
         attachRequesterToActivity()
         viewModel.screenState.observe(this, Observer<ViewState> { it.render(this@SelectDestinationScreen) })
@@ -71,7 +75,8 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
     }
 
     override fun loading() {
-        loading.visibility = View.VISIBLE
+        loadingView.visibility = View.VISIBLE
+        errorView.visibility = View.GONE
         listView.visibility = View.GONE
     }
 
@@ -90,10 +95,20 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         showList(factory.createFrom(cities) { viewModel.citySelected(factory.extractCity(it)) })
     }
 
+    override fun showError(message: MessageError) {
+        errorView.visibility = View.VISIBLE
+        errorView.text = message.show(this)
+
+        loadingView.visibility = View.GONE
+        listView.visibility = View.GONE
+    }
+
     override fun exit() = finish()
 
     private fun showList(itemModels: List<ItemViewModel>) {
-        loading.visibility = View.GONE
+        loadingView.visibility = View.GONE
+        errorView.visibility = View.GONE
+
         listView.visibility = View.VISIBLE
         viewAdapter.submitList(itemModels)
     }

@@ -23,16 +23,17 @@ class ItemAdapter : ListAdapter<ItemViewModel, ItemAdapter.MyViewHolder>(DiffCal
         fun bind(item: ItemViewModel) {
             view.findViewById<TextView>(R.id.item_info_code).text = item.code
             view.findViewById<TextView>(R.id.item_info_title).text = item.title
-            view.findViewById<TextView>(R.id.item_info_subtitle).text = item.subtitle
-            view.findViewById<TextView>(R.id.item_info_subtitle).visibility = when (item.subtitle.isEmpty()) {
-                true -> View.GONE
-                else -> View.VISIBLE
-            }
+            view.setOnClickListener { item.clickAction(item) }
         }
     }
 }
 
-data class ItemViewModel(val code: String, val title: String, val subtitle: String = "")
+data class ItemViewModel(
+    val code: String,
+    val title: String,
+    val payload: Any,
+    val clickAction: (item: ItemViewModel) -> Unit
+)
 
 class DiffCallback : DiffUtil.ItemCallback<ItemViewModel>() {
 

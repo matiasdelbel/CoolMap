@@ -26,9 +26,9 @@ class SelectDestinationViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    internal val screenState = MutableLiveData<ViewState>().apply { setValue(LoadingState()) }
-
     private val stackMemento = StateStack()
+
+    internal val screenState = MutableLiveData<ViewState>().apply { setValue(LoadingState()) }
 
     fun askPermissions() = compositeDisposable.add(askPermissionAndListenerResponse())
 
@@ -41,11 +41,12 @@ class SelectDestinationViewModel @Inject constructor(
 
     fun countrySelected(country: Country) {
         screenState.postValue(LoadingState())
-        compositeDisposable.add(filterCitiesByCountryUseCase(country).subscribe {
-            val state = PickCityState(it)
-            stackMemento.queue(state)
-            screenState.postValue(state)
-        })
+        compositeDisposable.add(
+            filterCitiesByCountryUseCase(country)
+                .subscribe({
+                    publishStateQueueing(PickCityState(it))
+                }, { publishError(NoCitiesFoundedErrorState) })
+        )
     }
 
     fun citySelected(city: CityDetail) = notifyCitySelection(city)
@@ -59,23 +60,33 @@ class SelectDestinationViewModel @Inject constructor(
     }
 
     private fun requestCitiesForLocationAndListenerResponse(location: UserLocation) =
-        filterCitiesByLocationUseCase(location).subscribe { matchingCity ->
+        filterCitiesByLocationUseCase(location).subscribe({ matchingCity ->
             when (matchingCity) {
                 NullCity -> requestAvailableCountries()
                 else -> notifyCitySelection(matchingCity)
             }
-        }
+        }, {
+            screenState.postValue(NoCitiesFoundedErrorState)
+        })
 
     private fun requestAvailableCountries() {
         screenState.postValue(LoadingState())
-        compositeDisposable.add(obtainCountriesUseCase().subscribe {
-            val state = PickCountryState(it)
-            stackMemento.queue(state)
-            screenState.postValue(state)
-        })
+        compositeDisposable.add(
+            obtainCountriesUseCase()
+                .subscribe({
+                    publishStateQueueing(PickCountryState(it))
+                }, { publishError(NoCountriesFoundedErrorState) })
+        )
     }
 
     private fun notifyCitySelection(city: CityDetail) = screenState.postValue(CitySelectedState(city))
+
+    private fun publishStateQueueing(viewState: ViewState) {
+        stackMemento.queue(viewState)
+        screenState.postValue(viewState)
+    }
+
+    private fun publishError(viewState: ErrorState) = screenState.postValue(viewState)
 
     override fun onCleared() {
         compositeDisposable.dispose()
