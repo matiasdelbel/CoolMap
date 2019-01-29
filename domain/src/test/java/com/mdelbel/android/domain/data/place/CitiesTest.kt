@@ -1,8 +1,12 @@
 package com.mdelbel.android.domain.data.place
 
 import com.mdelbel.android.domain.location.UserLocation
-import com.mdelbel.android.domain.place.*
+import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.Country
+import com.mdelbel.android.domain.place.NullCity
 import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
 
 class CitiesTest {
@@ -41,19 +45,33 @@ class CitiesTest {
         assertEquals(expected, result)
     }
 
-    private fun location() = UserLocation(2.2, 2.2)
+    @Test
+    fun `invoke if empty with empty cities should invoke empty`() {
+        val cities = Cities()
+
+        cities.invokeIfEmpty(ifIsEmpty = { assert(true) }, ifIsNotEmpty = { fail() })
+    }
+
+    @Test
+    fun `invoke if empty with not empty cities should invoke not empty`() {
+        val cities = Cities(listOf(CityDetail()))
+
+        cities.invokeIfEmpty(ifIsEmpty = { fail() }, ifIsNotEmpty = { assert(true) })
+    }
+
+    private fun location() = UserLocation(2.2, 8.2, Country())
 }
 
 class CityDetailContainLocationMock : CityDetail() {
 
-    override fun invokeIfContain(locationToCheck: Location, ifContain: () -> Unit, ifNotContain: () -> Unit) {
+    override fun invokeIfContain(locationToCheck: UserLocation, ifContain: () -> Unit, ifNotContain: () -> Unit) {
         ifContain()
     }
 }
 
 class CityDetailNotContainLocationMock : CityDetail() {
 
-    override fun invokeIfContain(locationToCheck: Location, ifContain: () -> Unit, ifNotContain: () -> Unit) {
+    override fun invokeIfContain(locationToCheck: UserLocation, ifContain: () -> Unit, ifNotContain: () -> Unit) {
         ifNotContain()
     }
 }

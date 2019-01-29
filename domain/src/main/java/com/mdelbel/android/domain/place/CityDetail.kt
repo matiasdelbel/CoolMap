@@ -14,10 +14,12 @@ open class CityDetail(
     fun name() = name
 
     open fun invokeIfContain(locationToCheck: UserLocation, ifContain: () -> Unit = {}, ifNotContain: () -> Unit = {}) {
-        workingArea.invokeIfContain(
-            locationToCheck.asLocation(),
-            { locationToCheck.invokeIfOnCountry(countryCode, ifContain, ifNotContain) },
-            ifNotContain
-        )
+        val location = locationToCheck.asLocation()
+        val ifWorkingAreaContain = { locationToCheck.invokeIfOnCountry(countryCode, ifContain, ifNotContain) }
+
+        workingArea.invokeIfContain(location, ifWorkingAreaContain, ifNotContain)
     }
+
+    open fun invokeIfFrom(country: Country, ifIsFrom: () -> Unit = {}, ifIsNotFrom: () -> Unit = {}) =
+        country.invokeIfMe(countryCode, ifIsFrom, ifIsNotFrom)
 }

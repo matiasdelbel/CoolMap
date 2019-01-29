@@ -2,13 +2,9 @@ package com.mdelbel.android.domain.place
 
 import com.google.android.gms.maps.model.LatLng
 
-class Location(
-    private val latitude: Double,
-    private val longitude: Double
-) {
+class Location(private val latitude: Double, private val longitude: Double) {
 
     fun asLatLng() = LatLng(latitude, longitude)
-
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -6,21 +6,21 @@ class Cities(private val cities: List<CityDetail> = emptyList()) {
 
     fun pickCityOn(location: UserLocation): CityDetail {
         var matchingCity: CityDetail = NullCity
-
-        cities.forEach {
-            it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it })
-        }
+        cities.forEach { it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it }) }
 
         return matchingCity
     }
 
     fun obtainBy(country: Country): Cities {
         val citiesOfCountry = mutableListOf<CityDetail>()
-        cities.forEach { city ->
-            city.invokeIfFrom(country = country, ifIsFrom = { citiesOfCountry.add(city) })
-        }
+        cities.forEach { city -> city.invokeIfFrom(country = country, ifIsFrom = { citiesOfCountry.add(city) }) }
 
         return Cities(citiesOfCountry)
+    }
+
+    fun invokeIfEmpty(ifIsEmpty: () -> Unit, ifIsNotEmpty: () -> Unit) = when (cities.isEmpty()) {
+        true -> ifIsEmpty()
+        else -> ifIsNotEmpty()
     }
 
     fun asCityDetailsList() = cities
@@ -34,7 +34,5 @@ class Cities(private val cities: List<CityDetail> = emptyList()) {
         return otherCities.cities == cities
     }
 
-    override fun hashCode(): Int {
-        return cities.hashCode()
-    }
+    override fun hashCode(): Int = cities.hashCode()
 }

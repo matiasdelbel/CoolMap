@@ -17,7 +17,7 @@ class ItemViewModelFactory {
 
     fun createFrom(cities: Cities): List<ItemViewModel> {
         val items = mutableListOf<ItemViewModel>()
-        cities.asCityDeatilsList().forEach {
+        cities.asCityDetailsList().forEach {
             items.add(ItemViewModel(it.code(), it.name()))
         }
         return items

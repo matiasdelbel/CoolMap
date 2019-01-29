@@ -1,6 +1,6 @@
 package com.mdelbel.android.domain.place
 
-class Country(private val code: String, private val name: String) {
+class Country(private val code: String = "", private val name: String = "") {
 
     fun code() = code
 
