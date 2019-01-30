@@ -80,7 +80,10 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         listView.visibility = View.GONE
     }
 
-    override fun goToMap(selected: CityDetail) = MapScreen.start(this, selected)
+    override fun goToMap(selected: CityDetail) {
+        finish()
+        MapScreen.start(this, selected)
+    }
 
     override fun showCountries(countries: Countries) {
         val factory = ItemViewModelFactory()

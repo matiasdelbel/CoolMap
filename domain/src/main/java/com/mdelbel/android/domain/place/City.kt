@@ -18,4 +18,6 @@ open class City(
     fun language() = language
 
     fun currency() = currency
+
+    fun asListOfLatLngPoints() = workingArea.asListOfLatLngPoints()
 }

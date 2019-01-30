@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
@@ -66,17 +69,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        viewModel.obtainCityInformation(intent.getStringExtra(EXTRA_CITY_DETAIL))
-    }
-
-    override fun loading() {
-        nameView.visibility = View.GONE
-        countryView.visibility = View.GONE
-        currencyView.visibility = View.GONE
-        languageView.visibility = View.GONE
-        errorView.visibility = View.GONE
-
-        loadingView.visibility = View.VISIBLE
+        viewModel.obtainGeolocationCityInformation(intent.getStringExtra(EXTRA_CITY_DETAIL))
     }
 
     override fun showCityInformation(city: City) {
@@ -91,6 +84,26 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
         errorView.visibility = View.GONE
         loadingView.visibility = View.GONE
+    }
+
+    override fun moveTo(locations: List<LatLng>) {
+        val zoom = 50
+        var latLngBoundsBuilder = LatLngBounds.Builder()
+        for (location in locations) {
+            latLngBoundsBuilder = latLngBoundsBuilder.include(location)
+        }
+
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBoundsBuilder.build(), zoom))
+    }
+
+    override fun loading() {
+        nameView.visibility = View.GONE
+        countryView.visibility = View.GONE
+        currencyView.visibility = View.GONE
+        languageView.visibility = View.GONE
+        errorView.visibility = View.GONE
+
+        loadingView.visibility = View.VISIBLE
     }
 
     override fun showError(error: MessageError) {
