@@ -28,7 +28,7 @@ class SelectDestinationViewModel @Inject constructor(
     private val compositeDisposable = CompositeDisposable()
     private val stackMemento = StateStack()
 
-    internal val screenState = MutableLiveData<ViewState>().apply { setValue(LoadingState()) }
+    internal val screenState = MutableLiveData<DestinationViewState>().apply { setValue(LoadingState()) }
 
     fun askPermissions() = compositeDisposable.add(askPermissionAndListenerResponse())
 
@@ -81,7 +81,7 @@ class SelectDestinationViewModel @Inject constructor(
 
     private fun notifyCitySelection(city: CityDetail) = screenState.postValue(CitySelectedState(city))
 
-    private fun publishStateQueueing(viewState: ViewState) {
+    private fun publishStateQueueing(viewState: DestinationViewState) {
         stackMemento.queue(viewState)
         screenState.postValue(viewState)
     }

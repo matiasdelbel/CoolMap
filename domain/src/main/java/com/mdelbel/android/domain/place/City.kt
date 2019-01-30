@@ -10,4 +10,12 @@ open class City(
 ) {
 
     fun code() = code
+
+    fun name() = name
+
+    fun countryCode() = countryCode
+
+    fun language() = language
+
+    fun currency() = currency
 }

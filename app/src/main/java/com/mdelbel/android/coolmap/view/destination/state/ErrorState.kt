@@ -4,7 +4,7 @@ import android.content.Context
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
 
-abstract class ErrorState(private val message: MessageError) : ViewState {
+abstract class ErrorState(private val message: MessageError) : DestinationViewState {
 
     override fun render(view: SelectDestinationView) {
         view.showError(message)

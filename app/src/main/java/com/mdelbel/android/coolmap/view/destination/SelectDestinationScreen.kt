@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.data.permissions.MapPermissionsRequester
 import com.mdelbel.android.coolmap.data.permissions.RequesterActivityBinder
+import com.mdelbel.android.coolmap.view.destination.state.DestinationViewState
 import com.mdelbel.android.coolmap.view.destination.state.MessageError
-import com.mdelbel.android.coolmap.view.destination.state.ViewState
 import com.mdelbel.android.coolmap.view.map.MapScreen
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
@@ -52,7 +52,7 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         errorView = findViewById(R.id.screen_main_error)
 
         attachRequesterToActivity()
-        viewModel.screenState.observe(this, Observer<ViewState> { it.render(this@SelectDestinationScreen) })
+        viewModel.screenState.observe(this, Observer<DestinationViewState> { it.render(this@SelectDestinationScreen) })
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

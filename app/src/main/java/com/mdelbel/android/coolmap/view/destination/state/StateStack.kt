@@ -2,11 +2,11 @@ package com.mdelbel.android.coolmap.view.destination.state
 
 import java.util.*
 
-class StateStack(private val queue: Queue<ViewState> = LinkedList()) {
+class StateStack(private val queue: Queue<DestinationViewState> = LinkedList()) {
 
-    fun queue(state: ViewState) = queue.add(state)
+    fun queue(state: DestinationViewState) = queue.add(state)
 
-    fun dequeue(): ViewState {
+    fun dequeue(): DestinationViewState {
         val state = queue.poll()
         return when (state) {
             null -> ExitState
