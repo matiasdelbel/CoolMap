@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+    <TextView
+            android:id="@+id/panel_city_information_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:paddingBottom="16dp"
+            tools:text="Buenos Aires"/>
+
+    <TextView
+            android:id="@+id/panel_city_information_country_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:drawableTop="@drawable/ic_country"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/panel_city_information_city_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/panel_city_information_currency"
+            tools:text="AR"/>
+
+    <TextView
+            android:id="@+id/panel_city_information_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:drawableTop="@drawable/ic_currency"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/panel_city_information_city_name"
+            app:layout_constraintLeft_toLeftOf="@+id/panel_city_information_country_code"
+            app:layout_constraintRight_toRightOf="@+id/panel_city_information_language"
+            tools:text="ARS"/>
+
+    <TextView
+            android:id="@+id/panel_city_information_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:drawableTop="@drawable/ic_language"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/panel_city_information_city_name"
+            app:layout_constraintLeft_toLeftOf="@+id/panel_city_information_currency"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="es"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
