@@ -13,6 +13,8 @@ class WorkingArea(private val areas: List<Area> = emptyList()) {
         }
     }
 
+    fun asAreas() = areas
+
     fun asListOfLatLngPoints(): List<LatLng> {
         val locations = mutableListOf<LatLng>()
         for (area in areas) {

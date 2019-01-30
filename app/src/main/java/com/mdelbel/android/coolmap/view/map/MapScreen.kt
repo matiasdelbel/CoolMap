@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -16,13 +17,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.PolygonOptions
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
+import com.mdelbel.android.domain.place.Area
 import com.mdelbel.android.domain.place.City
 import com.mdelbel.android.domain.place.CityDetail
 import dagger.android.AndroidInjection
 import javax.inject.Inject
+
 
 class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
@@ -85,6 +89,18 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         errorView.visibility = View.GONE
         loadingView.visibility = View.GONE
     }
+
+    override fun showWorkingAreas(city: City, areas: List<Area>) {
+        for (area in areas) {
+            map.addPolygon(
+                PolygonOptions()
+                    .addAll(area.asLatLngPoints())
+                    .fillColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
+                    .strokeWidth(0.0f)
+            )
+        }
+    }
+
 
     override fun moveTo(locations: List<LatLng>) {
         val zoom = 50

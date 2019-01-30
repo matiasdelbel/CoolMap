@@ -19,5 +19,7 @@ open class City(
 
     fun currency() = currency
 
+    fun asAreas() = workingArea.asAreas()
+
     fun asListOfLatLngPoints() = workingArea.asListOfLatLngPoints()
 }
