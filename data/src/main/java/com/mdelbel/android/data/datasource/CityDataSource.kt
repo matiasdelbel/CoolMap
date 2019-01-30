@@ -1,8 +1,8 @@
 package com.mdelbel.android.data.datasource
 
-import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.City
 
 interface CityDataSource {
 
-    fun obtainAll(): Cities
+    fun obtain(cityCode : String): City
 }

@@ -13,7 +13,7 @@ class MemoryCityDataSourceTest {
     @Test
     fun `obtain all should returns cache`() {
         val cache = mock(Cities::class.java)
-        val dataSource = MemoryCityDataSource(cache)
+        val dataSource = MemoryCityDetailDataSource(cache)
 
         val all = dataSource.obtainAll()
 
@@ -23,7 +23,7 @@ class MemoryCityDataSourceTest {
     @Test
     fun `save should override cache`() {
         val cache = mock(Cities::class.java)
-        val dataSource = MemoryCityDataSource()
+        val dataSource = MemoryCityDetailDataSource()
 
         dataSource.save(cache)
 
@@ -34,7 +34,7 @@ class MemoryCityDataSourceTest {
     fun `obtain by location should call cities pick city on`() {
         val cache = mock(Cities::class.java)
         val location = mock(UserLocation::class.java)
-        val dataSource = MemoryCityDataSource(cache)
+        val dataSource = MemoryCityDetailDataSource(cache)
 
         dataSource.obtainBy(location)
 
@@ -45,7 +45,7 @@ class MemoryCityDataSourceTest {
     fun `obtain by country should call cities obtain by country`() {
         val cache = mock(Cities::class.java)
         val country = mock(Country::class.java)
-        val dataSource = MemoryCityDataSource(cache)
+        val dataSource = MemoryCityDetailDataSource(cache)
 
         dataSource.obtainBy(country)
 

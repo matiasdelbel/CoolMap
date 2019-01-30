@@ -6,7 +6,9 @@ import com.google.android.gms.location.LocationServices
 import com.mdelbel.android.coolmap.data.location.GoogleLocationRequester
 import com.mdelbel.android.coolmap.data.permissions.MapPermissionsRequester
 import com.mdelbel.android.coolmap.data.place.ApiCityDataSource
+import com.mdelbel.android.coolmap.data.place.ApiCityDetailDataSource
 import com.mdelbel.android.coolmap.data.place.ApiCountryDataSource
+import com.mdelbel.android.data.repository.CityDetailRepository
 import com.mdelbel.android.data.repository.CityRepository
 import com.mdelbel.android.data.repository.CountryRepository
 import com.mdelbel.android.data.requester.LocationRequester
@@ -41,7 +43,7 @@ class LocationProvider @Inject constructor(context: Context) {
 class CityProvider {
 
     @Provides
-    fun providesRepository(): CityRepository = CityRepository(origin = ApiCityDataSource())
+    fun providesRepository(): CityRepository = CityRepository(origin = ApiCityDetailDataSource())
 }
 
 @Module
@@ -49,4 +51,11 @@ class CountryProvider {
 
     @Provides
     fun providesRepository(): CountryRepository = CountryRepository(origin = ApiCountryDataSource())
+}
+
+@Module
+class CityInformationProvider {
+
+    @Provides
+    fun providesRepository(): CityDetailRepository = CityDetailRepository(origin = ApiCityDataSource())
 }

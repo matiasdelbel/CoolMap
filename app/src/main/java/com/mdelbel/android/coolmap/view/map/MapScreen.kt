@@ -11,6 +11,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.domain.place.CityDetail
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class MapScreen : AppCompatActivity(), OnMapReadyCallback {
@@ -33,6 +34,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_map)
 
@@ -42,6 +44,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        viewModel.obtainCityInformation(intent.getStringExtra(EXTRA_CITY_DETAIL))
     }
 }
 

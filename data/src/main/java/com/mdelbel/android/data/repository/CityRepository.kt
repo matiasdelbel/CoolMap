@@ -1,7 +1,7 @@
 package com.mdelbel.android.data.repository
 
-import com.mdelbel.android.data.datasource.CityDataSource
-import com.mdelbel.android.data.datasource.MemoryCityDataSource
+import com.mdelbel.android.data.datasource.CityDetailDataSource
+import com.mdelbel.android.data.datasource.MemoryCityDetailDataSource
 import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
@@ -13,8 +13,8 @@ import javax.inject.Singleton
 
 @Singleton
 class CityRepository @Inject constructor(
-    private val cache: MemoryCityDataSource = MemoryCityDataSource(),
-    private val origin: CityDataSource
+    private val cache: MemoryCityDetailDataSource = MemoryCityDetailDataSource(),
+    private val origin: CityDetailDataSource
 ) {
 
     fun obtainAll(): Observable<Cities> {

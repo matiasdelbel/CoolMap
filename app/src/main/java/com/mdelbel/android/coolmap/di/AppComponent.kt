@@ -11,7 +11,8 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         BuilderModule::class,
         ViewModelModule::class,
-        SelectCityViewModelModule::class
+        SelectCityViewModelModule::class,
+        MapViewModelModule::class
     ]
 )
 interface AppComponent {

@@ -24,7 +24,7 @@ abstract class SelectCityViewModelModule {
     abstract fun bindViewModel(viewModel: SelectDestinationViewModel): ViewModel
 }
 
-@Module
+@Module(includes = [CityInformationProvider::class])
 abstract class MapViewModelModule {
 
     @Binds

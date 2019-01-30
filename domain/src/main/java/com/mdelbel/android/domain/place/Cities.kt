@@ -5,7 +5,7 @@ import com.mdelbel.android.domain.location.UserLocation
 class Cities(private val cities: List<CityDetail> = emptyList()) {
 
     fun pickCityOn(location: UserLocation): CityDetail {
-        var matchingCity: CityDetail = NullCity
+        var matchingCity: CityDetail = NullDetailCity
         cities.forEach { it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it }) }
 
         return matchingCity

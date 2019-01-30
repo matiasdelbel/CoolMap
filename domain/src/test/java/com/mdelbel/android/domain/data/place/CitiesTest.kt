@@ -4,7 +4,7 @@ import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.NullCity
+import com.mdelbel.android.domain.place.NullDetailCity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
@@ -19,7 +19,7 @@ class CitiesTest {
 
         val result = cities.pickCityOn(userLocation)
 
-        assertEquals(NullCity, result)
+        assertEquals(NullDetailCity, result)
     }
 
     @Test

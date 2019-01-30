@@ -8,7 +8,7 @@ import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
 import com.mdelbel.android.domain.place.CityDetail
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.NullCity
+import com.mdelbel.android.domain.place.NullDetailCity
 import com.mdelbel.android.usecases.location.ObtainLocation
 import com.mdelbel.android.usecases.permissions.AskLocationPermissions
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry
@@ -62,7 +62,7 @@ class SelectDestinationViewModel @Inject constructor(
     private fun requestCitiesForLocationAndListenerResponse(location: UserLocation) =
         filterCitiesByLocationUseCase(location).subscribe({ matchingCity ->
             when (matchingCity) {
-                NullCity -> requestAvailableCountries()
+                NullDetailCity -> requestAvailableCountries()
                 else -> notifyCitySelection(matchingCity)
             }
         }, {
@@ -73,9 +73,9 @@ class SelectDestinationViewModel @Inject constructor(
         screenState.postValue(LoadingState())
         compositeDisposable.add(
             obtainCountriesUseCase()
-                .subscribe({
-                    publishStateQueueing(PickCountryState(it))
-                }, { publishError(NoCountriesFoundedErrorState) })
+                .subscribe(
+                    { publishStateQueueing(PickCountryState(it)) },
+                    { publishError(NoCountriesFoundedErrorState) })
         )
     }
 
