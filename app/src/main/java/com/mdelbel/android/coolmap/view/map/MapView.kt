@@ -9,7 +9,7 @@ interface MapView {
 
     fun showCityInformation(city: City)
 
-    fun showWorkingAreas(city: City, areas: List<Area>)
+    fun showWorkingAreas(areas: List<Area>)
 
     fun moveTo(locations: List<LatLng>)
 

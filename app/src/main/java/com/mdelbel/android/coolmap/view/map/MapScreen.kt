@@ -90,7 +90,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         loadingView.visibility = View.GONE
     }
 
-    override fun showWorkingAreas(city: City, areas: List<Area>) {
+    override fun showWorkingAreas(areas: List<Area>) {
         for (area in areas) {
             map.addPolygon(
                 PolygonOptions()
