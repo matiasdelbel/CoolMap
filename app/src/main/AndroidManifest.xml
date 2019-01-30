@@ -20,6 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.map.MapScreen"/>
+
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version"/>
+
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyB-2Jz4R-0RVW6qTYbgPOFG_D9SDf4rA7s"/>
     </application>
 
 </manifest>

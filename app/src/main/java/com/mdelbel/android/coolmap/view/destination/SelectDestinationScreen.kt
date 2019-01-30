@@ -1,10 +1,10 @@
 package com.mdelbel.android.coolmap.view.destination
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +16,7 @@ import com.mdelbel.android.coolmap.data.permissions.MapPermissionsRequester
 import com.mdelbel.android.coolmap.data.permissions.RequesterActivityBinder
 import com.mdelbel.android.coolmap.view.destination.state.MessageError
 import com.mdelbel.android.coolmap.view.destination.state.ViewState
+import com.mdelbel.android.coolmap.view.map.MapScreen
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
 import com.mdelbel.android.domain.place.Countries
@@ -42,7 +43,7 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.screen_main)
+        setContentView(R.layout.screen_destination)
         listView = findViewById<RecyclerView>(R.id.screen_main_list).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this.context)
@@ -81,8 +82,8 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
     }
 
     override fun goToMap(selected: CityDetail) {
-        // TODO go to next screen
-        Toast.makeText(this, "selected: ${selected.name()}", Toast.LENGTH_LONG).show()
+        val intent = Intent(this, MapScreen::class.java)
+        startActivity(intent)
     }
 
     override fun showCountries(countries: Countries) {
