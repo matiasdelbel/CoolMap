@@ -1,6 +1,5 @@
 package com.mdelbel.android.coolmap.view.destination
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -81,10 +80,7 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         listView.visibility = View.GONE
     }
 
-    override fun goToMap(selected: CityDetail) {
-        val intent = Intent(this, MapScreen::class.java)
-        startActivity(intent)
-    }
+    override fun goToMap(selected: CityDetail) = MapScreen.start(this, selected)
 
     override fun showCountries(countries: Countries) {
         val factory = ItemViewModelFactory()
