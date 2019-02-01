@@ -2,6 +2,7 @@ package com.mdelbel.android.coolmap.view.map
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mdelbel.android.coolmap.view.map.render.PolygonCityRender
 import com.mdelbel.android.coolmap.view.map.state.*
 import com.mdelbel.android.domain.place.*
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry
@@ -20,6 +21,8 @@ class MapViewModel @Inject constructor(
     private var selectedCity: City = NullCity
     private var cities: Cities = Cities()
 
+    private var zoom = ZoomLevel()
+
     fun obtainGeolocationCityInformation(cityCode: String) {
         obtainCityDetail(cityCode) { screenState.postValue(DisplayingCityState(it)) }
     }
@@ -28,7 +31,7 @@ class MapViewModel @Inject constructor(
         compositeDisposable.add(filterCitiesByCountryUseCase(country).subscribe(
             {
                 cities = it
-                screenState.postValue(DisplayingCitiesState(it))
+                screenState.postValue(DisplayingCitiesState(it, PolygonCityRender()))
             }, {})
         )
     }
@@ -39,6 +42,8 @@ class MapViewModel @Inject constructor(
             nearCity,
             ifIsNotMe = { obtainCityDetail(nearCity.code()) { screenState.postValue(DisplayingCityInfoState(it)) } })
     }
+
+    fun onNewZoomLevel(zoomLevel: ZoomLevel) = zoom.update(zoomLevel, cities, screenState)
 
     private fun obtainCityDetail(cityCode: String, success: (result: City) -> Unit) { //TODO revisaar
         compositeDisposable.add(

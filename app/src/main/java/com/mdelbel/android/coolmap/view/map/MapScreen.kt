@@ -18,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolygonOptions
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
@@ -74,8 +75,12 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         map = googleMap
 
         map.setOnCameraIdleListener {
-            val center = Location(map.cameraPosition.target.latitude, map.cameraPosition.target.longitude)
+            val cameraPosition = map.cameraPosition
+
+            val center = Location(cameraPosition.target.latitude, cameraPosition.target.longitude)
             viewModel.onNewCenter(center)
+
+            viewModel.onNewZoomLevel(ZoomLevel(cameraPosition.zoom))
         }
 
         val extra = intent.getParcelableExtra<MapScreenInput>(EXTRA_MAP_INPUT)
@@ -98,6 +103,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     }
 
     override fun showWorkingAreas(areas: List<Area>) {
+        map.clear()
         for (area in areas) {
             map.addPolygon(
                 PolygonOptions()
@@ -105,6 +111,13 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
                     .fillColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
                     .strokeWidth(0.0f)
             )
+        }
+    }
+
+    override fun showCities(cities: Cities) {
+        map.clear()
+        for (city in cities.asCityDetailsList()) {
+            map.addMarker(MarkerOptions().position(city.bla()))
         }
     }
 
