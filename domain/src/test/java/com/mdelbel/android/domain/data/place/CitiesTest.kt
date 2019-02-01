@@ -1,5 +1,6 @@
 package com.mdelbel.android.domain.data.place
 
+import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.CityDetail
@@ -59,7 +60,7 @@ class CitiesTest {
         cities.invokeIfEmpty(ifIsEmpty = { fail() }, ifIsNotEmpty = { assert(true) })
     }
 
-    private fun location() = LocationOnCountry(2.2, 8.2, Country())
+    private fun location() = LocationOnCountry(Location(2.2, 8.2), Country())
 }
 
 class CityDetailContainLocationMock : CityDetail() {
