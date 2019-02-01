@@ -2,8 +2,8 @@ package com.mdelbel.android.data.repository
 
 import com.mdelbel.android.data.datasource.CityDataSource
 import com.mdelbel.android.data.datasource.MemoryCityDataSource
-import com.mdelbel.android.domain.place.City
-import com.mdelbel.android.domain.place.NullCity
+import com.mdelbel.android.domain.place.CityInfo
+import com.mdelbel.android.domain.place.NoCityInfo
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import javax.inject.Inject
@@ -15,7 +15,7 @@ class CityDetailRepository @Inject constructor(
     private val origin: CityDataSource
 ) {
 
-    fun obtainBy(cityCode: String): Observable<City> {
+    fun obtainBy(cityCode: String): Observable<CityInfo> {
         return Observable.create {
             invokeIfIsOnCache(
                 cityCode = cityCode,
@@ -27,12 +27,12 @@ class CityDetailRepository @Inject constructor(
     private fun invokeIfIsOnCache(cityCode: String, ifCacheIsEmpty: () -> Unit, ifCacheIsNotEmpty: () -> Unit) {
         val citiesOnCache = cache.obtain(cityCode)
         when (citiesOnCache) {
-            is NullCity -> ifCacheIsEmpty()
+            is NoCityInfo -> ifCacheIsEmpty()
             else -> ifCacheIsNotEmpty()
         }
     }
 
-    private fun updateCachePublishingResult(cityCode: String, emitter: ObservableEmitter<City>) {
+    private fun updateCachePublishingResult(cityCode: String, emitter: ObservableEmitter<CityInfo>) {
         try {
             cache.save(origin.obtain(cityCode))
             emitter.onNext(cache.obtain(cityCode))

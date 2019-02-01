@@ -2,14 +2,14 @@ package com.mdelbel.android.coolmap.view.destination
 
 import com.mdelbel.android.coolmap.view.destination.state.MessageError
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.City
 import com.mdelbel.android.domain.place.Countries
 
 interface SelectDestinationView {
 
     fun loading()
 
-    fun goToMap(selected: CityDetail)
+    fun goToMap(selected: City)
 
     fun showCountries(countries: Countries)
 

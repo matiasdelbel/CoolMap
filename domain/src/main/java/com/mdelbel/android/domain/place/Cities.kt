@@ -3,24 +3,24 @@ package com.mdelbel.android.domain.place
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 
-class Cities(private val cities: List<CityDetail> = emptyList()) {
+class Cities(private val cities: List<City> = emptyList()) {
 
-    fun pickCityOn(location: LocationOnCountry): CityDetail {
-        var matchingCity: CityDetail = NullDetailCity
+    fun pickCityOn(location: LocationOnCountry): City {
+        var matchingCity: City = NonExistentCity
         cities.forEach { it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it }) }
 
         return matchingCity
     }
 
     fun obtainBy(country: Country): Cities {
-        val citiesOfCountry = mutableListOf<CityDetail>()
+        val citiesOfCountry = mutableListOf<City>()
         cities.forEach { city -> city.invokeIfFrom(country = country, ifIsFrom = { citiesOfCountry.add(city) }) }
 
         return Cities(citiesOfCountry)
     }
 
-    fun obtainNearTo(location: Location): CityDetail {
-        var nearCity = CityDetail()
+    fun obtainNearTo(location: Location): City {
+        var nearCity = City()
         var distance = Double.MAX_VALUE
 
         cities.forEach {

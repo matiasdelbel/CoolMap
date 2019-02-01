@@ -17,7 +17,7 @@ import com.mdelbel.android.coolmap.view.destination.state.DestinationViewState
 import com.mdelbel.android.coolmap.view.destination.state.MessageError
 import com.mdelbel.android.coolmap.view.map.MapScreen
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.City
 import com.mdelbel.android.domain.place.Countries
 import dagger.android.AndroidInjection
 import javax.inject.Inject
@@ -80,7 +80,7 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         listView.visibility = View.GONE
     }
 
-    override fun goToMap(selected: CityDetail) {
+    override fun goToMap(selected: City) {
         finish()
         MapScreen.start(this, selected)
     }

@@ -3,9 +3,9 @@ package com.mdelbel.android.domain.data.place
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.City
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.NullDetailCity
+import com.mdelbel.android.domain.place.NonExistentCity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
@@ -20,7 +20,7 @@ class CitiesTest {
 
         val result = cities.pickCityOn(userLocation)
 
-        assertEquals(NullDetailCity, result)
+        assertEquals(NonExistentCity, result)
     }
 
     @Test
@@ -36,8 +36,8 @@ class CitiesTest {
 
     @Test
     fun `obtain by country should filter countries by country id`() {
-        val cityFiltered = CityDetail(countryCode = "AR")
-        val cityNotFiltered = CityDetail(countryCode = "BR")
+        val cityFiltered = City(countryCode = "AR")
+        val cityNotFiltered = City(countryCode = "BR")
         val expected = Cities(listOf(cityFiltered))
         val cities = Cities(listOf(cityFiltered, cityNotFiltered))
 
@@ -55,7 +55,7 @@ class CitiesTest {
 
     @Test
     fun `invoke if empty with not empty cities should invoke not empty`() {
-        val cities = Cities(listOf(CityDetail()))
+        val cities = Cities(listOf(City()))
 
         cities.invokeIfEmpty(ifIsEmpty = { fail() }, ifIsNotEmpty = { assert(true) })
     }
@@ -63,14 +63,14 @@ class CitiesTest {
     private fun location() = LocationOnCountry(Location(2.2, 8.2), Country())
 }
 
-class CityDetailContainLocationMock : CityDetail() {
+class CityDetailContainLocationMock : City() {
 
     override fun invokeIfContain(locationToCheck: LocationOnCountry, ifContain: () -> Unit, ifNotContain: () -> Unit) {
         ifContain()
     }
 }
 
-class CityDetailNotContainLocationMock : CityDetail() {
+class CityDetailNotContainLocationMock : City() {
 
     override fun invokeIfContain(locationToCheck: LocationOnCountry, ifContain: () -> Unit, ifNotContain: () -> Unit) {
         ifNotContain()

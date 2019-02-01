@@ -1,7 +1,7 @@
 package com.mdelbel.android.coolmap.view.destination
 
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.City
 import com.mdelbel.android.domain.place.Countries
 import com.mdelbel.android.domain.place.Country
 
@@ -26,5 +26,5 @@ class ItemViewModelFactory {
 
     fun extractCountry(item: ItemViewModel): Country = item.payload as Country
 
-    fun extractCity(item: ItemViewModel): CityDetail = item.payload as CityDetail
+    fun extractCity(item: ItemViewModel): City = item.payload as City
 }

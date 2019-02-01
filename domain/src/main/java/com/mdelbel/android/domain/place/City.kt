@@ -1,12 +1,14 @@
 package com.mdelbel.android.domain.place
 
+import com.google.maps.android.SphericalUtil
+import com.mdelbel.android.domain.location.Location
+import com.mdelbel.android.domain.location.LocationOnCountry
+
 open class City(
-    private val code: String,
-    private val name: String,
-    private val countryCode: String,
-    private val language: String,
-    private val currency: String,
-    private val workingArea: WorkingArea = WorkingArea() //TODO eliminar
+    private val code: String = "",
+    private val name: String = "",
+    private val countryCode: String = "",
+    private val workingArea: WorkingArea = WorkingArea()
 ) {
 
     fun code() = code
@@ -15,14 +17,27 @@ open class City(
 
     fun countryCode() = countryCode
 
-    fun language() = language
+    fun asAreas() = workingArea.asAreas()
 
-    fun currency() = currency
+    open fun invokeIfContain(
+        locationToCheck: LocationOnCountry,
+        ifContain: () -> Unit = {},
+        ifNotContain: () -> Unit = {}
+    ) {
+        val location = locationToCheck.asLocation()
+        val ifWorkingAreaContain =
+            { locationToCheck.invokeIfIamOn(Country(code = countryCode), ifContain, ifNotContain) }
 
-    fun asListOfLatLngPoints() = workingArea.asListOfLatLngPoints()
-
-    fun invokeIfIsMe(nearCity: CityDetail, ifIsMe: () -> Unit = {}, ifIsNotMe: () -> Unit = {}) = when (code) {
-        nearCity.code() -> ifIsMe()
-        else -> ifIsNotMe()
+        workingArea.invokeIfContain(location, ifWorkingAreaContain, ifNotContain)
     }
+
+    open fun invokeIfFrom(country: Country, ifIsFrom: () -> Unit = {}, ifIsNotFrom: () -> Unit = {}) =
+        country.invokeIfMe(Country(code = countryCode), ifIsFrom, ifIsNotFrom)
+
+    fun approxDistanceTo(location: Location): Double {
+        return SphericalUtil.computeDistanceBetween(workingArea.getRepresentativePoint(), location.asLatLng())
+    }
+
+    fun getRepresentativePoint() = workingArea.getRepresentativePoint() //TODO
+
 }

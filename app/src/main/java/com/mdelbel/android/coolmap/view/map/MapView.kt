@@ -4,11 +4,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.mdelbel.android.coolmap.view.map.state.MessageError
 import com.mdelbel.android.domain.place.Area
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.CityInfo
 
 interface MapView {
 
-    fun showCityInformation(city: City)
+    fun showCityInformation(city: CityInfo)
 
     fun showWorkingAreas(areas: List<Area>)
 

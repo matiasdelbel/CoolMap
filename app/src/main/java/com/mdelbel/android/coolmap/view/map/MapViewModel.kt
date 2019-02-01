@@ -20,7 +20,7 @@ class MapViewModel @Inject constructor(
     private val compositeDisposable = CompositeDisposable()
     internal val screenState = MutableLiveData<MapViewState>().apply { setValue(LoadingState()) }
 
-    private var selectedCity: City = NullCity
+    private var selectedCity: CityInfo = NoCityInfo
     private var cities: Cities = Cities()
 
     private var zoom = ZoomLevel()
@@ -52,7 +52,7 @@ class MapViewModel @Inject constructor(
 
     fun onNewZoomLevel(zoomLevel: ZoomLevel) = zoom.update(zoomLevel, cities, screenState)
 
-    private fun obtainCityDetail(cityCode: String, success: (result: City) -> Unit) { //TODO revisaar
+    private fun obtainCityDetail(cityCode: String, success: (result: CityInfo) -> Unit) { //TODO revisaar
         compositeDisposable.add(
             obtainCityDetailUseCase(cityCode)
                 .subscribe({

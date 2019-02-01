@@ -1,9 +1,9 @@
 package com.mdelbel.android.coolmap.view.map.state
 
 import com.mdelbel.android.coolmap.view.map.MapView
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.CityInfo
 
-class DisplayingCityState(private val city: City) : MapViewState {
+class DisplayingCityState(private val city: CityInfo) : MapViewState {
 
     override fun render(view: MapView) {
         view.showCityInformation(city)

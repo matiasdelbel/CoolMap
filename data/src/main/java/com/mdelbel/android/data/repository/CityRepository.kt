@@ -4,7 +4,7 @@ import com.mdelbel.android.data.datasource.CityDetailDataSource
 import com.mdelbel.android.data.datasource.MemoryCityDetailDataSource
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.City
 import com.mdelbel.android.domain.place.Country
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -25,7 +25,7 @@ class CityRepository @Inject constructor(
         }
     }
 
-    fun obtainBy(userLocation: LocationOnCountry): Observable<CityDetail> {
+    fun obtainBy(userLocation: LocationOnCountry): Observable<City> {
         return Observable.create {
             invokeIfIsOnCache(
                 ifCacheIsEmpty = { updateCachePublishingResult(userLocation, it) },
@@ -64,7 +64,7 @@ class CityRepository @Inject constructor(
         }
     }
 
-    private fun updateCachePublishingResult(userLocation: LocationOnCountry, emitter: ObservableEmitter<CityDetail>) {
+    private fun updateCachePublishingResult(userLocation: LocationOnCountry, emitter: ObservableEmitter<City>) {
         try {
             cache.save(origin.obtainAll())
             emitter.onNext(cache.obtainBy(userLocation))

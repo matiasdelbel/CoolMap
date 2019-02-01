@@ -6,9 +6,9 @@ import com.mdelbel.android.coolmap.view.destination.state.*
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
-import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.City
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.NullDetailCity
+import com.mdelbel.android.domain.place.NonExistentCity
 import com.mdelbel.android.usecases.location.ObtainLocation
 import com.mdelbel.android.usecases.permissions.AskLocationPermissions
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry
@@ -49,7 +49,7 @@ class SelectDestinationViewModel @Inject constructor(
         )
     }
 
-    fun citySelected(city: CityDetail) = notifyCitySelection(city)
+    fun citySelected(city: City) = notifyCitySelection(city)
 
     private fun selectGeolocationCityIfCan() = compositeDisposable.add(requestLocationAndListenerResponse())
 
@@ -62,7 +62,7 @@ class SelectDestinationViewModel @Inject constructor(
     private fun requestCitiesForLocationAndListenerResponse(location: LocationOnCountry) =
         filterCitiesByLocationUseCase(location).subscribe({ matchingCity ->
             when (matchingCity) {
-                NullDetailCity -> requestAvailableCountries()
+                NonExistentCity -> requestAvailableCountries()
                 else -> notifyCitySelection(matchingCity)
             }
         }, {
@@ -79,7 +79,7 @@ class SelectDestinationViewModel @Inject constructor(
         )
     }
 
-    private fun notifyCitySelection(city: CityDetail) = screenState.postValue(CitySelectedState(city))
+    private fun notifyCitySelection(city: City) = screenState.postValue(CitySelectedState(city))
 
     private fun publishStateQueueing(viewState: DestinationViewState) {
         stackMemento.queue(viewState)

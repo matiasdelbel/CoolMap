@@ -1,16 +1,16 @@
 package com.mdelbel.android.data.datasource
 
-import com.mdelbel.android.domain.place.City
-import com.mdelbel.android.domain.place.NullCity
+import com.mdelbel.android.domain.place.CityInfo
+import com.mdelbel.android.domain.place.NoCityInfo
 
-class MemoryCityDataSource(private var citiesCache: MutableMap<String, City> = mutableMapOf()) : CityDataSource {
+class MemoryCityDataSource(private var citiesCache: MutableMap<String, CityInfo> = mutableMapOf()) : CityDataSource {
 
-    override fun obtain(cityCode: String): City = when {
-        citiesCache[cityCode] == null -> NullCity
+    override fun obtain(cityCode: String): CityInfo = when {
+        citiesCache[cityCode] == null -> NoCityInfo
         else -> citiesCache[cityCode]!!
     }
 
-    internal fun save(city: City) {
+    internal fun save(city: CityInfo) {
         citiesCache[city.code()] = city
     }
 }

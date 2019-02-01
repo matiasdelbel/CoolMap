@@ -35,7 +35,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
     companion object {
 
-        fun start(context: Context, cityDetail: CityDetail) {
+        fun start(context: Context, cityDetail: City) {
             val intent = Intent(context, MapScreen::class.java)
             intent.putExtra(EXTRA_MAP_INPUT, MapScreenInput(cityDetail.code(), cityDetail.countryCode()))
             context.startActivity(intent)
@@ -106,7 +106,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         viewModel.obtainCitiesFor(Country(code = extra.countryCode))
     }
 
-    override fun showCityInformation(city: City) {
+    override fun showCityInformation(city: CityInfo) {
         nameView.visibility = View.VISIBLE
         nameView.text = city.name()
         countryView.visibility = View.VISIBLE
