@@ -1,5 +1,7 @@
 package com.mdelbel.android.domain.place.city
 
+import com.mdelbel.android.domain.location.Location
+
 open class CityInfo(private val city: City, private val language: String, private val currency: String) {
 
     fun code() = city.code()
@@ -12,10 +14,16 @@ open class CityInfo(private val city: City, private val language: String, privat
 
     fun currency() = currency
 
-    fun areas() = city.asAreas()
-
-    fun invokeIfIsMe(nearCity: City, ifIsMe: () -> Unit = {}, ifIsNotMe: () -> Unit = {}) = when (city.code()) {
-        nearCity.code() -> ifIsMe()
+    fun invokeIfIsMe(city: City, ifIsMe: () -> Unit = {}, ifIsNotMe: () -> Unit = {}) = when (this.city.code()) {
+        city.code() -> ifIsMe()
         else -> ifIsNotMe()
+    }
+
+    fun asLocationCollection(): List<Location> {
+        val cityAsCollectionOfLocations = mutableListOf<Location>()
+        city.asAreas().forEach { area ->
+            cityAsCollectionOfLocations.addAll(area.asLocationCollection())
+        }
+        return cityAsCollectionOfLocations
     }
 }

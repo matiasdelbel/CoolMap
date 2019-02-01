@@ -15,7 +15,7 @@ import org.mockito.Mockito.mock
 class CityTest {
 
     @Test
-    fun `code, name and countryCode should returns the data from the country`() {
+    fun `code, name and countryCode should returns the data from the city`() {
         val buenosAires = City("BUE", "Buenos Aires", "AR")
 
         assertEquals("BUE", buenosAires.code())

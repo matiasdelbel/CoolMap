@@ -10,10 +10,8 @@ class DisplayingCityState(private val city: CityInfo) : MapViewState {
         view.showCityInformation(city)
 
         val cityAsCollectionOfLatLng = mutableListOf<LatLng>()
-        city.areas().forEach { area ->
-            area.asLocationCollection().forEach { location ->
-                cityAsCollectionOfLatLng.add(location.asLatLng())
-            }
+        city.asLocationCollection().forEach { location ->
+            cityAsCollectionOfLatLng.add(location.asLatLng())
         }
 
         view.moveTo(cityAsCollectionOfLatLng)
