@@ -1,7 +1,7 @@
 package com.mdelbel.android.data.repository
 
-import com.mdelbel.android.data.datasource.CountryDataSource
-import com.mdelbel.android.data.datasource.MemoryCountryDataSource
+import com.mdelbel.android.data.datasource.CountriesDataSource
+import com.mdelbel.android.data.datasource.CacheCountriesDataSource
 import com.mdelbel.android.domain.place.Countries
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 class CountryRepository @Inject constructor(
-    private val cache: MemoryCountryDataSource = MemoryCountryDataSource(),
-    private val origin: CountryDataSource
+    private val cache: CacheCountriesDataSource = CacheCountriesDataSource(),
+    private val origin: CountriesDataSource
 ) {
 
     fun obtainAll(): Observable<Countries> {

@@ -1,10 +1,10 @@
 package com.mdelbel.android.coolmap.data.place
 
-import com.mdelbel.android.data.datasource.CountryDataSource
+import com.mdelbel.android.data.datasource.CountriesDataSource
 import com.mdelbel.android.domain.place.Countries
 import com.mdelbel.android.domain.place.Country
 
-class ApiCountryDataSource(private val retrofitClient: RetrofitClient = RetrofitClient) : CountryDataSource {
+class ApiCountryDataSource(private val retrofitClient: RetrofitClient = RetrofitClient) : CountriesDataSource {
 
     override fun obtainAll(): Countries {
         val requestInterface = retrofitClient.createService(PlacesApi::class.java)

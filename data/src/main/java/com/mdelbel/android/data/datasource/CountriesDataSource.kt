@@ -2,7 +2,7 @@ package com.mdelbel.android.data.datasource
 
 import com.mdelbel.android.domain.place.Countries
 
-interface CountryDataSource {
+interface CountriesDataSource {
 
     fun obtainAll(): Countries
 }

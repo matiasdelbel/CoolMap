@@ -10,7 +10,7 @@ class MemoryCountryDataSourceTest {
     @Test
     fun `obtain all should returns cache`() {
         val cache = mock(Countries::class.java)
-        val dataSource = MemoryCountryDataSource(cache)
+        val dataSource = CacheCountriesDataSource(cache)
 
         val all = dataSource.obtainAll()
 
@@ -20,7 +20,7 @@ class MemoryCountryDataSourceTest {
     @Test
     fun `save should override cache`() {
         val cache = mock(Countries::class.java)
-        val dataSource = MemoryCountryDataSource()
+        val dataSource = CacheCountriesDataSource()
 
         dataSource.save(cache)
 
