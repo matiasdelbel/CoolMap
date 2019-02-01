@@ -26,7 +26,7 @@ class AreaTest {
         val locationOnArea = Location(LATITUDE, LONGITUDE)
         val area = Area(polygon = listOf(locationOnArea))
 
-        val points = area.asLatLngPoints()
+        val points = area.asLocationCollection()
 
         assertEquals(1, points.size)
         assertEquals(LatLng(LATITUDE, LONGITUDE), points[0])

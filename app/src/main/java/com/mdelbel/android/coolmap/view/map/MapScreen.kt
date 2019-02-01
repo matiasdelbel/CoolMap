@@ -25,8 +25,8 @@ import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
-import com.mdelbel.android.domain.place.*
-import com.mdelbel.android.domain.place.city.area.Area
+import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.Country
 import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.city.CityInfo
 import dagger.android.AndroidInjection
@@ -123,12 +123,12 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         loadingView.visibility = View.GONE
     }
 
-    override fun showWorkingAreas(areas: List<Area>) {
+    override fun showWorkingAreas(areas: List<List<LatLng>>) {
         map.clear()
         for (area in areas) {
             map.addPolygon(
                 PolygonOptions()
-                    .addAll(area.asLatLngPoints())
+                    .addAll(area)
                     .fillColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
                     .strokeWidth(0.0f)
             )
@@ -138,7 +138,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     override fun showCities(cities: Cities) {
         map.clear()
         for (city in cities.asCityDetailsList()) {
-            map.addMarker(MarkerOptions().position(city.getRepresentativePoint()))
+            map.addMarker(MarkerOptions().position(city.getRepresentativePoint().asLatLng()))
         }
     }
 

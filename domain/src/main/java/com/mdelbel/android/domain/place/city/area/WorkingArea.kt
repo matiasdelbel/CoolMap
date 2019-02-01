@@ -1,6 +1,5 @@
 package com.mdelbel.android.domain.place.city.area
 
-import com.google.android.gms.maps.model.LatLng
 import com.mdelbel.android.domain.location.Location
 
 class WorkingArea(private val areas: List<Area> = emptyList()) {
@@ -16,12 +15,12 @@ class WorkingArea(private val areas: List<Area> = emptyList()) {
 
     fun asAreas() = areas
 
-    fun getRepresentativePoint() = areas[0].asLatLngPoints()[0] //TODO
+    fun getRepresentativePoint() = areas[0].asLocationCollection()[0] //TODO
 
-    fun asListOfLatLngPoints(): List<LatLng> {
-        val locations = mutableListOf<LatLng>()
+    fun asLocationCollection(): List<Location> {
+        val locations = mutableListOf<Location>()
         for (area in areas) {
-            locations.addAll(area.asLatLngPoints())
+            locations.addAll(area.asLocationCollection())
         }
 
         return locations

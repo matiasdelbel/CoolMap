@@ -37,11 +37,11 @@ open class City(
         country.invokeIfMe(Country(code = countryCode), ifIsFrom, ifIsNotFrom)
 
     fun approxDistanceTo(location: Location): Double {
-        return SphericalUtil.computeDistanceBetween(workingArea.getRepresentativePoint(), location.asLatLng())
+        return SphericalUtil.computeDistanceBetween(workingArea.getRepresentativePoint().asLatLng(), location.asLatLng()) //TODO
     }
 
     fun getRepresentativePoint() = workingArea.getRepresentativePoint() //TODO
 
-    fun asListOfLatLngPoints() = workingArea.asListOfLatLngPoints()
+    fun asListOfLatLngPoints() = workingArea.asLocationCollection()
 
 }
