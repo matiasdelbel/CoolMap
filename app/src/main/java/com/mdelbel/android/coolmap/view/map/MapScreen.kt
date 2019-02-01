@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.PolygonOptions
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
+import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.*
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
@@ -84,6 +85,19 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         }
 
         val extra = intent.getParcelableExtra<MapScreenInput>(EXTRA_MAP_INPUT)
+
+        map.setOnMarkerClickListener {
+            viewModel.obtainCitiesFor(
+                UserLocation(
+                    it.position.latitude,
+                    it.position.longitude,
+                    Country(code = extra.countryCode)
+                )
+            )
+            true
+        }
+
+
         viewModel.obtainGeolocationCityInformation(extra.selectedCityCode)
         viewModel.obtainCitiesFor(Country(code = extra.countryCode))
     }
@@ -117,13 +131,13 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     override fun showCities(cities: Cities) {
         map.clear()
         for (city in cities.asCityDetailsList()) {
-            map.addMarker(MarkerOptions().position(city.bla()))
+            map.addMarker(MarkerOptions().position(city.getRepresentativePoint()))
         }
     }
 
 
     override fun moveTo(locations: List<LatLng>) {
-        val zoom = 50
+        val zoom = 10
         var latLngBoundsBuilder = LatLngBounds.Builder()
         for (location in locations) {
             latLngBoundsBuilder = latLngBoundsBuilder.include(location)

@@ -32,6 +32,6 @@ open class CityDetail(
         return SphericalUtil.computeDistanceBetween(workingArea.getRepresentativePoint(), location.asLatLng())
     }
 
-    fun bla() = workingArea.getRepresentativePoint() //TODO
+    fun getRepresentativePoint() = workingArea.getRepresentativePoint() //TODO
 
 }
