@@ -4,7 +4,7 @@ import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.Country
 
-class MemoryCityDetailDataSource(private var citiesCache: Cities = Cities()) : CityDetailDataSource {
+class MemoryCityDetailDataSource(private var citiesCache: Cities = Cities()) : CitiesDataSource {
 
     override fun obtainAll() = citiesCache
 
