@@ -3,7 +3,7 @@ package com.mdelbel.android.coolmap.view.destination
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mdelbel.android.coolmap.view.destination.state.*
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
 import com.mdelbel.android.domain.place.CityDetail
@@ -59,7 +59,7 @@ class SelectDestinationViewModel @Inject constructor(
         { compositeDisposable.add(requestCitiesForLocationAndListenerResponse(it)) },
         { requestAvailableCountries() })
 
-    private fun requestCitiesForLocationAndListenerResponse(location: UserLocation) =
+    private fun requestCitiesForLocationAndListenerResponse(location: LocationOnCountry) =
         filterCitiesByLocationUseCase(location).subscribe({ matchingCity ->
             when (matchingCity) {
                 NullDetailCity -> requestAvailableCountries()

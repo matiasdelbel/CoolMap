@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.mdelbel.android.coolmap.view.map.render.PolygonCityRender
 import com.mdelbel.android.coolmap.view.map.state.*
 import com.mdelbel.android.domain.location.Location
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.*
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry
 import com.mdelbel.android.usecases.place.ObtainCityDetail
@@ -38,7 +38,7 @@ class MapViewModel @Inject constructor(
         )
     }
 
-    fun obtainCitiesFor(location: UserLocation) {
+    fun obtainCitiesFor(location: LocationOnCountry) {
         val selected = cities.pickCityOn(location)
         obtainGeolocationCityInformation(selected.code())
     }

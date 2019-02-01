@@ -1,6 +1,6 @@
 package com.mdelbel.android.domain.data.location
 
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Country
 import com.mdelbel.android.domain.location.Location
 import org.junit.Assert.assertEquals
@@ -12,7 +12,7 @@ class UserLocationTest {
     @Test
     fun `user location as location should create a location with the same coordinates`() {
         val expected = Location(LATITUDE, LONGITUDE)
-        val userLocation = UserLocation(LATITUDE, LONGITUDE, COUNTRY)
+        val userLocation = LocationOnCountry(LATITUDE, LONGITUDE, COUNTRY)
 
         val location = userLocation.asLocation()
 
@@ -21,16 +21,16 @@ class UserLocationTest {
 
     @Test
     fun `invoke if is on country with location not on country should invoke if not in country`() {
-        val userLocation = UserLocation(LATITUDE, LONGITUDE, Country("AR", "Argentina"))
+        val userLocation = LocationOnCountry(LATITUDE, LONGITUDE, Country("AR", "Argentina"))
 
-        userLocation.invokeIfOnCountry("BR", { fail() }, { assert(true) })
+        userLocation.invokeIfIamOn("BR", { fail() }, { assert(true) })
     }
 
     @Test
     fun `invoke if is on country with location on country should invoke if in country`() {
-        val userLocation = UserLocation(LATITUDE, LONGITUDE, Country("AR", "Argentina"))
+        val userLocation = LocationOnCountry(LATITUDE, LONGITUDE, Country("AR", "Argentina"))
 
-        userLocation.invokeIfOnCountry("AR", { assert(true) }, { fail() })
+        userLocation.invokeIfIamOn("AR", { assert(true) }, { fail() })
     }
 }
 

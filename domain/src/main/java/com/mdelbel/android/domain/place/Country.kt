@@ -6,9 +6,9 @@ class Country(private val code: String = "", private val name: String = "") {
 
     fun name() = name
 
-    fun invokeIfMe(countryCode: String, ifIsMe: () -> Unit, ifIsNotMe: () -> Unit) {
+    fun invokeIfMe(country: Country, ifIsMe: () -> Unit, ifIsNotMe: () -> Unit) {
         when (code) {
-            countryCode -> ifIsMe()
+            country.code -> ifIsMe()
             else -> ifIsNotMe()
         }
     }

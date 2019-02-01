@@ -1,9 +1,9 @@
 package com.mdelbel.android.data.requester
 
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 import io.reactivex.Observable
 
 interface LocationRequester {
 
-    fun requestLocation(): Observable<UserLocation>
+    fun requestLocation(): Observable<LocationOnCountry>
 }

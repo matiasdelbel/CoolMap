@@ -24,11 +24,12 @@ import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
 import com.mdelbel.android.domain.location.Location
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.*
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import javax.inject.Inject
+
 //TODO rotar pincha
 class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
@@ -92,9 +93,8 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
         map.setOnMarkerClickListener {
             viewModel.obtainCitiesFor(
-                UserLocation(
-                    it.position.latitude,
-                    it.position.longitude,
+                LocationOnCountry(
+                    Location(it.position.latitude, it.position.longitude),
                     Country(code = extra.countryCode)
                 )
             )

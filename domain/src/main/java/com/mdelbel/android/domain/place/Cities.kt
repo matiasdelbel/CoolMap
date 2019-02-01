@@ -1,11 +1,11 @@
 package com.mdelbel.android.domain.place
 
 import com.mdelbel.android.domain.location.Location
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 
 class Cities(private val cities: List<CityDetail> = emptyList()) {
 
-    fun pickCityOn(location: UserLocation): CityDetail {
+    fun pickCityOn(location: LocationOnCountry): CityDetail {
         var matchingCity: CityDetail = NullDetailCity
         cities.forEach { it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it }) }
 

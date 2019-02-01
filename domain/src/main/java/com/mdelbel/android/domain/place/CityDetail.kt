@@ -2,7 +2,7 @@ package com.mdelbel.android.domain.place
 
 import com.google.maps.android.SphericalUtil
 import com.mdelbel.android.domain.location.Location
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 
 open class CityDetail(
     private val code: String = "",
@@ -19,15 +19,20 @@ open class CityDetail(
 
     fun asAreas() = workingArea.asAreas()
 
-    open fun invokeIfContain(locationToCheck: UserLocation, ifContain: () -> Unit = {}, ifNotContain: () -> Unit = {}) {
+    open fun invokeIfContain(
+        locationToCheck: LocationOnCountry,
+        ifContain: () -> Unit = {},
+        ifNotContain: () -> Unit = {}
+    ) {
         val location = locationToCheck.asLocation()
-        val ifWorkingAreaContain = { locationToCheck.invokeIfOnCountry(countryCode, ifContain, ifNotContain) }
+        val ifWorkingAreaContain =
+            { locationToCheck.invokeIfIamOn(Country(code = countryCode), ifContain, ifNotContain) }
 
         workingArea.invokeIfContain(location, ifWorkingAreaContain, ifNotContain)
     }
 
     open fun invokeIfFrom(country: Country, ifIsFrom: () -> Unit = {}, ifIsNotFrom: () -> Unit = {}) =
-        country.invokeIfMe(countryCode, ifIsFrom, ifIsNotFrom)
+        country.invokeIfMe(Country(code = countryCode), ifIsFrom, ifIsNotFrom)
 
     fun approxDistanceTo(location: Location): Double {
         return SphericalUtil.computeDistanceBetween(workingArea.getRepresentativePoint(), location.asLatLng())

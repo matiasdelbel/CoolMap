@@ -1,6 +1,6 @@
 package com.mdelbel.android.data.datasource
 
-import com.mdelbel.android.domain.location.UserLocation
+import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Cities
 import com.mdelbel.android.domain.place.Country
 import com.nhaarman.mockitokotlin2.verify
@@ -33,7 +33,7 @@ class MemoryCityDataSourceTest {
     @Test
     fun `obtain by location should call cities pick city on`() {
         val cache = mock(Cities::class.java)
-        val location = mock(UserLocation::class.java)
+        val location = mock(LocationOnCountry::class.java)
         val dataSource = MemoryCityDetailDataSource(cache)
 
         dataSource.obtainBy(location)
