@@ -1,7 +1,7 @@
 package com.mdelbel.android.data.datasource
 
-import com.mdelbel.android.domain.place.CityInfo
-import com.mdelbel.android.domain.place.NoCityInfo
+import com.mdelbel.android.domain.place.city.CityInfo
+import com.mdelbel.android.domain.place.city.NoCityInfo
 
 class MemoryCityDataSource(private var citiesCache: MutableMap<String, CityInfo> = mutableMapOf()) : CityDataSource {
 

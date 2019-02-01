@@ -2,8 +2,8 @@ package com.mdelbel.android.data.repository
 
 import com.mdelbel.android.data.datasource.CityDataSource
 import com.mdelbel.android.data.datasource.MemoryCityDataSource
-import com.mdelbel.android.domain.place.CityInfo
-import com.mdelbel.android.domain.place.NoCityInfo
+import com.mdelbel.android.domain.place.city.CityInfo
+import com.mdelbel.android.domain.place.city.NoCityInfo
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import javax.inject.Inject

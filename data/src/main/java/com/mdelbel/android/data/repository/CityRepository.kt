@@ -4,7 +4,7 @@ import com.mdelbel.android.data.datasource.CityDetailDataSource
 import com.mdelbel.android.data.datasource.MemoryCityDetailDataSource
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.Country
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter

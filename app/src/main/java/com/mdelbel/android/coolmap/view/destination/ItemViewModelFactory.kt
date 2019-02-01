@@ -1,7 +1,7 @@
 package com.mdelbel.android.coolmap.view.destination
 
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.Countries
 import com.mdelbel.android.domain.place.Country
 

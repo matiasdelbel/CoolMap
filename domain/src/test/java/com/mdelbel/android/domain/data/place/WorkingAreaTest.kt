@@ -1,8 +1,8 @@
 package com.mdelbel.android.domain.data.place
 
-import com.mdelbel.android.domain.place.Area
+import com.mdelbel.android.domain.place.city.area.Area
 import com.mdelbel.android.domain.location.Location
-import com.mdelbel.android.domain.place.WorkingArea
+import com.mdelbel.android.domain.place.city.area.WorkingArea
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.whenever

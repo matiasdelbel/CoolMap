@@ -26,6 +26,9 @@ import com.mdelbel.android.coolmap.view.map.state.MessageError
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.*
+import com.mdelbel.android.domain.place.city.area.Area
+import com.mdelbel.android.domain.place.city.City
+import com.mdelbel.android.domain.place.city.CityInfo
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import javax.inject.Inject

@@ -2,10 +2,10 @@ package com.mdelbel.android.coolmap.data.place
 
 import com.google.maps.android.PolyUtil
 import com.mdelbel.android.domain.location.Location
-import com.mdelbel.android.domain.place.Area
-import com.mdelbel.android.domain.place.City
-import com.mdelbel.android.domain.place.CityInfo
-import com.mdelbel.android.domain.place.WorkingArea
+import com.mdelbel.android.domain.place.city.area.Area
+import com.mdelbel.android.domain.place.city.City
+import com.mdelbel.android.domain.place.city.CityInfo
+import com.mdelbel.android.domain.place.city.area.WorkingArea
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.mdelbel.android.domain.place
+package com.mdelbel.android.domain.place.city.area
 
 import com.google.android.gms.maps.model.LatLng
 import com.mdelbel.android.domain.location.Location

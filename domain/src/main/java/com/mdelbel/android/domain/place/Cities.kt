@@ -2,11 +2,14 @@ package com.mdelbel.android.domain.place
 
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
+import com.mdelbel.android.domain.place.city.City
+import com.mdelbel.android.domain.place.city.NonExistentCity
 
 class Cities(private val cities: List<City> = emptyList()) {
 
     fun pickCityOn(location: LocationOnCountry): City {
-        var matchingCity: City = NonExistentCity
+        var matchingCity: City =
+            NonExistentCity
         cities.forEach { it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it }) }
 
         return matchingCity

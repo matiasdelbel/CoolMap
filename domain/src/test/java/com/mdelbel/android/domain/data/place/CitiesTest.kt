@@ -3,9 +3,9 @@ package com.mdelbel.android.domain.data.place
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.NonExistentCity
+import com.mdelbel.android.domain.place.city.NonExistentCity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test

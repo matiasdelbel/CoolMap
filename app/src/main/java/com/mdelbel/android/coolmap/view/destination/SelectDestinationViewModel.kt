@@ -6,9 +6,9 @@ import com.mdelbel.android.coolmap.view.destination.state.*
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.NonExistentCity
+import com.mdelbel.android.domain.place.city.NonExistentCity
 import com.mdelbel.android.usecases.location.ObtainLocation
 import com.mdelbel.android.usecases.permissions.AskLocationPermissions
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry

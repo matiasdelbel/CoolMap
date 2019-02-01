@@ -1,7 +1,7 @@
 package com.mdelbel.android.coolmap.view.destination.state
 
 import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 
 class CitySelectedState(private val city: City) : DestinationViewState {
 

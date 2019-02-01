@@ -1,4 +1,4 @@
-package com.mdelbel.android.domain.place
+package com.mdelbel.android.domain.place.city
 
 open class CityInfo(private val city: City, private val language: String, private val currency: String) {
 

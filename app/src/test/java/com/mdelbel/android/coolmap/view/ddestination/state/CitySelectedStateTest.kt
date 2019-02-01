@@ -2,7 +2,7 @@ package com.mdelbel.android.coolmap.view.ddestination.state
 
 import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
 import com.mdelbel.android.coolmap.view.destination.state.CitySelectedState
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
 import org.mockito.Mockito

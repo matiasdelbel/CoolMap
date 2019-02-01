@@ -1,7 +1,7 @@
 package com.mdelbel.android.usecases.place
 
 import com.mdelbel.android.data.repository.CityDetailRepository
-import com.mdelbel.android.domain.place.CityInfo
+import com.mdelbel.android.domain.place.city.CityInfo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

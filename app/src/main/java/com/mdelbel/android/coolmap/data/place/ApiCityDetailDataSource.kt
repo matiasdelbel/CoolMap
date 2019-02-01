@@ -2,7 +2,7 @@ package com.mdelbel.android.coolmap.data.place
 
 import com.mdelbel.android.data.datasource.CityDetailDataSource
 import com.mdelbel.android.domain.place.Cities
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 
 class ApiCityDetailDataSource(private val retrofitClient: RetrofitClient = RetrofitClient) : CityDetailDataSource {
 

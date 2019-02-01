@@ -1,8 +1,10 @@
-package com.mdelbel.android.domain.place
+package com.mdelbel.android.domain.place.city
 
 import com.google.maps.android.SphericalUtil
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
+import com.mdelbel.android.domain.place.Country
+import com.mdelbel.android.domain.place.city.area.WorkingArea
 
 open class City(
     private val code: String = "",

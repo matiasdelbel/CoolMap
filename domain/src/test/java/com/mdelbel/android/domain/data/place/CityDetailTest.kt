@@ -1,6 +1,6 @@
 package com.mdelbel.android.domain.data.place
 
-import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.Country
 import org.junit.Test
 import org.mockito.Mockito.mock
