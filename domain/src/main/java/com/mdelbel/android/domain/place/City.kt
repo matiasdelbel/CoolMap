@@ -40,4 +40,6 @@ open class City(
 
     fun getRepresentativePoint() = workingArea.getRepresentativePoint() //TODO
 
+    fun asListOfLatLngPoints() = workingArea.asListOfLatLngPoints()
+
 }

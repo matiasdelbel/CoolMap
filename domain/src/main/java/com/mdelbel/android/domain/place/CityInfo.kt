@@ -1,27 +1,20 @@
 package com.mdelbel.android.domain.place
 
-open class CityInfo(
-    private val code: String,
-    private val name: String,
-    private val countryCode: String,
-    private val language: String,
-    private val currency: String,
-    private val workingArea: WorkingArea = WorkingArea() //TODO eliminar
-) {
+open class CityInfo(private val city: City, private val language: String, private val currency: String) {
 
-    fun code() = code
+    fun code() = city.code()
 
-    fun name() = name
+    fun name() = city.name()
 
-    fun countryCode() = countryCode
+    fun countryCode() = city.countryCode()
 
     fun language() = language
 
     fun currency() = currency
 
-    fun asListOfLatLngPoints() = workingArea.asListOfLatLngPoints()
+    fun asListOfLatLngPoints() = city.asListOfLatLngPoints()
 
-    fun invokeIfIsMe(nearCity: City, ifIsMe: () -> Unit = {}, ifIsNotMe: () -> Unit = {}) = when (code) {
+    fun invokeIfIsMe(nearCity: City, ifIsMe: () -> Unit = {}, ifIsNotMe: () -> Unit = {}) = when (city.code()) {
         nearCity.code() -> ifIsMe()
         else -> ifIsNotMe()
     }

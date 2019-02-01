@@ -18,7 +18,6 @@ class WorkingArea(private val areas: List<Area> = emptyList()) {
 
     fun getRepresentativePoint() = areas[0].asLatLngPoints()[0] //TODO
 
-
     fun asListOfLatLngPoints(): List<LatLng> {
         val locations = mutableListOf<LatLng>()
         for (area in areas) {

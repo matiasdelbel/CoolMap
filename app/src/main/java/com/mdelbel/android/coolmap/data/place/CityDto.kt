@@ -1,9 +1,10 @@
 package com.mdelbel.android.coolmap.data.place
 
 import com.google.maps.android.PolyUtil
-import com.mdelbel.android.domain.place.Area
-import com.mdelbel.android.domain.place.CityInfo
 import com.mdelbel.android.domain.location.Location
+import com.mdelbel.android.domain.place.Area
+import com.mdelbel.android.domain.place.City
+import com.mdelbel.android.domain.place.CityInfo
 import com.mdelbel.android.domain.place.WorkingArea
 
 /**
@@ -38,18 +39,21 @@ data class CityDto(
         working_area.forEach { encodedArea ->
             val areas = mutableListOf<Location>()
             val areaAsLatLngPoints = PolyUtil.decode(encodedArea)
-            areaAsLatLngPoints.forEach { areas.add(
-                Location(
-                    it.latitude,
-                    it.longitude
+            areaAsLatLngPoints.forEach {
+                areas.add(
+                    Location(
+                        it.latitude,
+                        it.longitude
+                    )
                 )
-            ) }
+            }
 
             if (areas.isNotEmpty()) {
                 workingArea.add(Area(areas))
             }
         }
 
-        return CityInfo(code, name, country_code, language_code, currency, WorkingArea(workingArea))
+        val city = City(code, name, country_code, WorkingArea(workingArea))
+        return CityInfo(city, language_code, currency)
     }
 }
