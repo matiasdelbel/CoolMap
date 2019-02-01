@@ -36,7 +36,7 @@ class CityRepository @Inject constructor(
     fun obtainBy(country: Country): Observable<Cities> {
         return Observable.create {
             invokeIfIsOnCache(
-                ifCacheIsEmpty = { updateCachePublishingResult(it) },
+                ifCacheIsEmpty = { updateCachePublishingResult(country, it) },
                 ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(country)) })
         }
     }
@@ -50,6 +50,15 @@ class CityRepository @Inject constructor(
         try {
             cache.save(origin.obtainAll())
             emitter.onNext(cache.obtainAll())
+        } catch (e: Exception) {
+            emitter.onError(e)
+        }
+    }
+
+    private fun updateCachePublishingResult(country: Country, emitter: ObservableEmitter<Cities>) {
+        try {
+            cache.save(origin.obtainAll())
+            emitter.onNext(cache.obtainBy(country))
         } catch (e: Exception) {
             emitter.onError(e)
         }

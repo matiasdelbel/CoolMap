@@ -18,6 +18,21 @@ class Cities(private val cities: List<CityDetail> = emptyList()) {
         return Cities(citiesOfCountry)
     }
 
+    fun obtainNearTo(location: Location): CityDetail {
+        var nearCity = CityDetail()
+        var distance = Double.MAX_VALUE
+
+        cities.forEach {
+            val approxDistance = it.approxDistanceTo(location)
+            if (approxDistance < distance) {
+                nearCity = it
+                distance = approxDistance
+            }
+        }
+
+        return nearCity
+    }
+
     fun invokeIfEmpty(ifIsEmpty: () -> Unit, ifIsNotEmpty: () -> Unit) = when (cities.isEmpty()) {
         true -> ifIsEmpty()
         else -> ifIsNotEmpty()

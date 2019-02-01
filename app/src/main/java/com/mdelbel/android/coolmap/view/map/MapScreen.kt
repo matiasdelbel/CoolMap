@@ -3,6 +3,7 @@ package com.mdelbel.android.coolmap.view.map
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -21,12 +22,10 @@ import com.google.android.gms.maps.model.PolygonOptions
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
-import com.mdelbel.android.domain.place.Area
-import com.mdelbel.android.domain.place.City
-import com.mdelbel.android.domain.place.CityDetail
+import com.mdelbel.android.domain.place.*
 import dagger.android.AndroidInjection
+import kotlinx.android.parcel.Parcelize
 import javax.inject.Inject
-
 
 class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
@@ -34,7 +33,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
         fun start(context: Context, cityDetail: CityDetail) {
             val intent = Intent(context, MapScreen::class.java)
-            intent.putExtra(EXTRA_CITY_DETAIL, cityDetail.code())
+            intent.putExtra(EXTRA_MAP_INPUT, MapScreenInput(cityDetail.code(), cityDetail.countryCode()))
             context.startActivity(intent)
         }
     }
@@ -73,7 +72,15 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        viewModel.obtainGeolocationCityInformation(intent.getStringExtra(EXTRA_CITY_DETAIL))
+
+        map.setOnCameraIdleListener {
+            val center = Location(map.cameraPosition.target.latitude, map.cameraPosition.target.longitude)
+            viewModel.onNewCenter(center)
+        }
+
+        val extra = intent.getParcelableExtra<MapScreenInput>(EXTRA_MAP_INPUT)
+        viewModel.obtainGeolocationCityInformation(extra.selectedCityCode)
+        viewModel.obtainCitiesFor(Country(code = extra.countryCode))
     }
 
     override fun showCityInformation(city: City) {
@@ -134,4 +141,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     }
 }
 
-private const val EXTRA_CITY_DETAIL = "EXTRA_CITY_DETAIL"
+@Parcelize
+data class MapScreenInput(val selectedCityCode: String, val countryCode: String) : Parcelable
+
+private const val EXTRA_MAP_INPUT = "EXTRA_MAP_INPUT"

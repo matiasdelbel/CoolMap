@@ -25,7 +25,10 @@ data class CityDetailDto(val code: String, val name: String, val country_code: S
             val areas = mutableListOf<Location>()
             val areaAsLatLngPoints = PolyUtil.decode(encodedArea)
             areaAsLatLngPoints.forEach { areas.add(Location(it.latitude, it.longitude)) }
-            workingArea.add(Area(areas))
+
+            if (areas.isNotEmpty()) {
+                workingArea.add(Area(areas))
+            }
         }
 
         return CityDetail(code, name, country_code, WorkingArea(workingArea))

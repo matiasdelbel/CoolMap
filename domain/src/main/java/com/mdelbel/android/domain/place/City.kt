@@ -6,7 +6,7 @@ open class City(
     private val countryCode: String,
     private val language: String,
     private val currency: String,
-    private val workingArea: WorkingArea = WorkingArea()
+    private val workingArea: WorkingArea = WorkingArea() //TODO eliminar
 ) {
 
     fun code() = code
@@ -19,7 +19,10 @@ open class City(
 
     fun currency() = currency
 
-    fun asAreas() = workingArea.asAreas()
-
     fun asListOfLatLngPoints() = workingArea.asListOfLatLngPoints()
+
+    fun invokeIfIsMe(nearCity: CityDetail, ifIsMe: () -> Unit = {}, ifIsNotMe: () -> Unit = {}) = when (code) {
+        nearCity.code() -> ifIsMe()
+        else -> ifIsNotMe()
+    }
 }
