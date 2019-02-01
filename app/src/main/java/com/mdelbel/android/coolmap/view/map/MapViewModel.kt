@@ -7,6 +7,7 @@ import com.mdelbel.android.coolmap.view.map.state.*
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.*
+import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.city.CityInfo
 import com.mdelbel.android.domain.place.city.NoCityInfo
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry
@@ -42,7 +43,7 @@ class MapViewModel @Inject constructor(
     }
 
     fun obtainCitiesFor(location: LocationOnCountry) {
-        val selected = cities.pickCityOn(location)
+        val selected = cities.obtainOn(location)
         obtainGeolocationCityInformation(selected.code())
     }
 

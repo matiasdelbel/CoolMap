@@ -25,7 +25,7 @@ import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
-import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.Country
 import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.city.CityInfo
@@ -137,7 +137,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
     override fun showCities(cities: Cities) {
         map.clear()
-        for (city in cities.asCityDetailsList()) {
+        for (city in cities.asCityCollection()) {
             map.addMarker(MarkerOptions().position(city.center().asLatLng()))
         }
     }

@@ -1,7 +1,7 @@
 package com.mdelbel.android.data.datasource
 
 import com.mdelbel.android.domain.location.LocationOnCountry
-import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.Country
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Assert.assertEquals
@@ -38,7 +38,7 @@ class MemoryCityDataSourceTest {
 
         dataSource.obtainBy(location)
 
-        verify(cache).pickCityOn(location)
+        verify(cache).obtainOn(location)
     }
 
     @Test
@@ -49,6 +49,6 @@ class MemoryCityDataSourceTest {
 
         dataSource.obtainBy(country)
 
-        verify(cache).obtainBy(country)
+        verify(cache).obtainOn(country)
     }
 }

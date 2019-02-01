@@ -1,6 +1,6 @@
 package com.mdelbel.android.data.datasource
 
-import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.city.Cities
 
 interface CityDetailDataSource {
 

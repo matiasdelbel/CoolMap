@@ -5,7 +5,7 @@ import com.mdelbel.android.coolmap.view.map.render.MarkerCityRender
 import com.mdelbel.android.coolmap.view.map.render.PolygonCityRender
 import com.mdelbel.android.coolmap.view.map.state.DisplayingCitiesState
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
-import com.mdelbel.android.domain.place.Cities
+import com.mdelbel.android.domain.place.city.Cities
 
 class ZoomLevel(private var state: Float = Float.MIN_VALUE) {
 
