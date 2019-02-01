@@ -30,18 +30,15 @@ open class City(
         val ifWorkingAreaContain =
             { locationToCheck.invokeIfIamOn(Country(code = countryCode), ifContain, ifNotContain) }
 
-        workingArea.invokeIfContain(location, ifWorkingAreaContain, ifNotContain)
+        workingArea.invokeIfReaches(location, ifWorkingAreaContain, ifNotContain)
     }
 
     open fun invokeIfFrom(country: Country, ifIsFrom: () -> Unit = {}, ifIsNotFrom: () -> Unit = {}) =
         country.invokeIfMe(Country(code = countryCode), ifIsFrom, ifIsNotFrom)
 
     fun approxDistanceTo(location: Location): Double {
-        return SphericalUtil.computeDistanceBetween(workingArea.getRepresentativePoint().asLatLng(), location.asLatLng()) //TODO
+        return SphericalUtil.computeDistanceBetween(workingArea.center().asLatLng(), location.asLatLng()) //TODO
     }
 
-    fun getRepresentativePoint() = workingArea.getRepresentativePoint() //TODO
-
-    fun asListOfLatLngPoints() = workingArea.asLocationCollection()
-
+    fun getRepresentativePoint() = workingArea.center() //TODO
 }

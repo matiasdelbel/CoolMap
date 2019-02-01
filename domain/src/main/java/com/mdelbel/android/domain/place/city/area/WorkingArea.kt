@@ -4,25 +4,16 @@ import com.mdelbel.android.domain.location.Location
 
 class WorkingArea(private val areas: List<Area> = emptyList()) {
 
-    fun invokeIfContain(location: Location, ifContain: () -> Unit, ifNotContain: () -> Unit) {
-        val matchingArea = areas.firstOrNull { it.contain(location) }
-
-        when (matchingArea) {
-            null -> ifNotContain()
-            else -> ifContain()
-        }
-    }
-
     fun asAreas() = areas
 
-    fun getRepresentativePoint() = areas[0].asLocationCollection()[0] //TODO
-
-    fun asLocationCollection(): List<Location> {
-        val locations = mutableListOf<Location>()
-        for (area in areas) {
-            locations.addAll(area.asLocationCollection())
+    fun invokeIfReaches(location: Location, ifReaches: () -> Unit, ifNotReaches: () -> Unit) {
+        val matchingArea = areas.firstOrNull { area -> area.contain(location) }
+        when (matchingArea) {
+            null -> ifNotReaches()
+            else -> ifReaches()
         }
-
-        return locations
     }
+
+    fun center(areaProcessor: AreaProcessor = AreaProcessor()) = areaProcessor.centerOf(this)
+
 }

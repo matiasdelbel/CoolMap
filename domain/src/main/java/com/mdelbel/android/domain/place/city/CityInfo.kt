@@ -12,7 +12,7 @@ open class CityInfo(private val city: City, private val language: String, privat
 
     fun currency() = currency
 
-    fun asListOfLatLngPoints() = city.asListOfLatLngPoints()
+    fun areas() = city.asAreas()
 
     fun invokeIfIsMe(nearCity: City, ifIsMe: () -> Unit = {}, ifIsNotMe: () -> Unit = {}) = when (city.code()) {
         nearCity.code() -> ifIsMe()

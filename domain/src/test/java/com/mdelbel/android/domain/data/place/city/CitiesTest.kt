@@ -1,4 +1,4 @@
-package com.mdelbel.android.domain.data.place
+package com.mdelbel.android.domain.data.place.city
 
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
