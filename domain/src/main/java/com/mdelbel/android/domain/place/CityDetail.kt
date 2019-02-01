@@ -1,6 +1,7 @@
 package com.mdelbel.android.domain.place
 
 import com.google.maps.android.SphericalUtil
+import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.UserLocation
 
 open class CityDetail(

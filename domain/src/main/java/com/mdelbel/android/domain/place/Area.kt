@@ -1,6 +1,7 @@
 package com.mdelbel.android.domain.place
 
 import com.google.android.gms.maps.model.LatLng
+import com.mdelbel.android.domain.location.Location
 
 class Area(private val polygon: List<Location> = emptyList()) {
 

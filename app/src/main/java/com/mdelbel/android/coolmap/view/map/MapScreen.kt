@@ -23,12 +23,13 @@ import com.google.android.gms.maps.model.PolygonOptions
 import com.mdelbel.android.coolmap.R
 import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
+import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.*
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import javax.inject.Inject
-
+//TODO rotar pincha
 class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
     companion object {
@@ -78,7 +79,10 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         map.setOnCameraIdleListener {
             val cameraPosition = map.cameraPosition
 
-            val center = Location(cameraPosition.target.latitude, cameraPosition.target.longitude)
+            val center = Location(
+                cameraPosition.target.latitude,
+                cameraPosition.target.longitude
+            )
             viewModel.onNewCenter(center)
 
             viewModel.onNewZoomLevel(ZoomLevel(cameraPosition.zoom))

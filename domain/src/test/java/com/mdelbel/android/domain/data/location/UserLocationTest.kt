@@ -2,7 +2,7 @@ package com.mdelbel.android.domain.data.location
 
 import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.Location
+import com.mdelbel.android.domain.location.Location
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test

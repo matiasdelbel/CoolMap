@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mdelbel.android.coolmap.view.map.render.PolygonCityRender
 import com.mdelbel.android.coolmap.view.map.state.*
+import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.UserLocation
 import com.mdelbel.android.domain.place.*
 import com.mdelbel.android.usecases.place.FilterCitiesByCountry

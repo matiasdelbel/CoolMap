@@ -1,4 +1,4 @@
-package com.mdelbel.android.domain.place
+package com.mdelbel.android.domain.location
 
 import com.google.android.gms.maps.model.LatLng
 

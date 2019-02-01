@@ -1,7 +1,6 @@
 package com.mdelbel.android.domain.location
 
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.Location
 
 //TODO rename
 class UserLocation(

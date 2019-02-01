@@ -2,7 +2,7 @@ package com.mdelbel.android.domain.data.place
 
 import com.google.android.gms.maps.model.LatLng
 import com.mdelbel.android.domain.place.Area
-import com.mdelbel.android.domain.place.Location
+import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.place.PolygonChecker
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals

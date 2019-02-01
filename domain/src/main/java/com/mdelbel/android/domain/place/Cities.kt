@@ -1,5 +1,6 @@
 package com.mdelbel.android.domain.place
 
+import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.UserLocation
 
 class Cities(private val cities: List<CityDetail> = emptyList()) {

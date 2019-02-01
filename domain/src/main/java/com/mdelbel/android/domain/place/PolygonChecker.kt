@@ -1,6 +1,7 @@
 package com.mdelbel.android.domain.place
 
 import com.google.maps.android.PolyUtil
+import com.mdelbel.android.domain.location.Location
 
 class PolygonChecker {
 
