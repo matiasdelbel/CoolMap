@@ -1,14 +1,14 @@
 package com.mdelbel.android.data.datasource
 
 import com.mdelbel.android.domain.location.LocationOnCountry
-import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.Country
+import com.mdelbel.android.domain.place.city.Cities
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito.mock
 
-class MemoryCityDataSourceTest {
+class CacheCitiesDataSourceTest {
 
     @Test
     fun `obtain all should returns cache`() {

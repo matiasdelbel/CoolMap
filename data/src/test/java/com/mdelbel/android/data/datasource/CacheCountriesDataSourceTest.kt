@@ -5,7 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito.mock
 
-class MemoryCountryDataSourceTest {
+class CacheCountriesDataSourceTest {
 
     @Test
     fun `obtain all should returns cache`() {
