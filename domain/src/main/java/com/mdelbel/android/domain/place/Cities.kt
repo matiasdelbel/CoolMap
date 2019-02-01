@@ -8,26 +8,25 @@ import com.mdelbel.android.domain.place.city.NonExistentCity
 class Cities(private val cities: List<City> = emptyList()) {
 
     fun pickCityOn(location: LocationOnCountry): City {
-        var matchingCity: City =
-            NonExistentCity
-        cities.forEach { it.invokeIfContain(locationToCheck = location, ifContain = { matchingCity = it }) }
+        var matchingCity: City = NonExistentCity
+        cities.forEach { it.invokeIfContain(location = location, ifContain = { matchingCity = it }) }
 
         return matchingCity
     }
 
     fun obtainBy(country: Country): Cities {
         val citiesOfCountry = mutableListOf<City>()
-        cities.forEach { city -> city.invokeIfFrom(country = country, ifIsFrom = { citiesOfCountry.add(city) }) }
+        cities.forEach { city -> city.invokeIfIn(country = country, ifIsIn = { citiesOfCountry.add(city) }) }
 
         return Cities(citiesOfCountry)
     }
 
     fun obtainNearTo(location: Location): City {
-        var nearCity = City()
+        var nearCity = City("", "", "")
         var distance = Double.MAX_VALUE
 
         cities.forEach {
-            val approxDistance = it.approxDistanceTo(location)
+            val approxDistance = it.distanceTo(location)
             if (approxDistance < distance) {
                 nearCity = it
                 distance = approxDistance

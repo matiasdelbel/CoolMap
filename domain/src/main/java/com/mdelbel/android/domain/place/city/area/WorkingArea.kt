@@ -14,6 +14,6 @@ class WorkingArea(private val areas: List<Area> = emptyList()) {
         }
     }
 
-    fun center(areaProcessor: AreaProcessor = AreaProcessor()) = areaProcessor.centerOf(this)
+    fun center(areaProcessor: AreaProcessor = AreaProcessor) = areaProcessor.centerOf(this)
 
 }

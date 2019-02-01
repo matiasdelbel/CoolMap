@@ -138,7 +138,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     override fun showCities(cities: Cities) {
         map.clear()
         for (city in cities.asCityDetailsList()) {
-            map.addMarker(MarkerOptions().position(city.getRepresentativePoint().asLatLng()))
+            map.addMarker(MarkerOptions().position(city.center().asLatLng()))
         }
     }
 

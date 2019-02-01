@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.PolyUtil
 import com.mdelbel.android.domain.location.Location
 
-class AreaProcessor {
+object AreaProcessor {
 
     fun contains(pointToCheck: Location, areaToCheck: Area): Boolean {
         // Convert the location to a LatLng

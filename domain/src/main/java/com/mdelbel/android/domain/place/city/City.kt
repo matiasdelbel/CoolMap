@@ -1,15 +1,14 @@
 package com.mdelbel.android.domain.place.city
 
-import com.google.maps.android.SphericalUtil
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Country
 import com.mdelbel.android.domain.place.city.area.WorkingArea
 
 open class City(
-    private val code: String = "",
-    private val name: String = "",
-    private val countryCode: String = "",
+    private val code: String,
+    private val name: String,
+    private val countryCode: String,
     private val workingArea: WorkingArea = WorkingArea()
 ) {
 
@@ -19,26 +18,20 @@ open class City(
 
     fun countryCode() = countryCode
 
+    fun center() = workingArea.center()
+
     fun asAreas() = workingArea.asAreas()
 
-    open fun invokeIfContain(
-        locationToCheck: LocationOnCountry,
-        ifContain: () -> Unit = {},
-        ifNotContain: () -> Unit = {}
-    ) {
-        val location = locationToCheck.asLocation()
-        val ifWorkingAreaContain =
-            { locationToCheck.invokeIfIamOn(Country(code = countryCode), ifContain, ifNotContain) }
+    fun invokeIfContain(location: LocationOnCountry, ifContain: () -> Unit = {}, ifNotContain: () -> Unit = {}) {
+        val latLong = location.asLocation()
+        val ifReaches = { location.invokeIfIamOn(Country(code = countryCode), ifContain, ifNotContain) }
 
-        workingArea.invokeIfReaches(location, ifWorkingAreaContain, ifNotContain)
+        workingArea.invokeIfReaches(latLong, ifReaches = ifReaches, ifNotReaches = ifNotContain)
     }
 
-    open fun invokeIfFrom(country: Country, ifIsFrom: () -> Unit = {}, ifIsNotFrom: () -> Unit = {}) =
-        country.invokeIfMe(Country(code = countryCode), ifIsFrom, ifIsNotFrom)
+    fun invokeIfIn(country: Country, ifIsIn: () -> Unit = {}, ifIsNotIn: () -> Unit = {}) =
+        country.invokeIfMe(Country(code = countryCode), ifIsIn, ifIsNotIn)
 
-    fun approxDistanceTo(location: Location): Double {
-        return SphericalUtil.computeDistanceBetween(workingArea.center().asLatLng(), location.asLatLng()) //TODO
-    }
-
-    fun getRepresentativePoint() = workingArea.center() //TODO
+    fun distanceTo(location: Location, distanceMeter: DistanceMeter = DistanceMeter) =
+        distanceMeter.computeBetween(workingArea.center(), location)
 }

@@ -6,6 +6,6 @@ class Area(private val polygon: List<Location> = emptyList()) {
 
     fun asLocationCollection() = polygon
 
-    fun contain(location: Location, areaProcessor: AreaProcessor = AreaProcessor()) =
+    fun contain(location: Location, areaProcessor: AreaProcessor = AreaProcessor) =
         areaProcessor.contains(location, this)
 }
