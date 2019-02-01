@@ -55,9 +55,9 @@ class SelectDestinationViewModel @Inject constructor(
 
     fun returnsStateBefore() = screenState.postValue(stackMemento.dequeue())
 
-    private fun requestLocationAndListenerResponse() = obtainLocationUseCase().subscribe { it ->
-        compositeDisposable.add(requestCitiesForLocationAndListenerResponse(it))
-    }
+    private fun requestLocationAndListenerResponse() = obtainLocationUseCase().subscribe(
+        { compositeDisposable.add(requestCitiesForLocationAndListenerResponse(it)) },
+        { requestAvailableCountries() })
 
     private fun requestCitiesForLocationAndListenerResponse(location: UserLocation) =
         filterCitiesByLocationUseCase(location).subscribe({ matchingCity ->

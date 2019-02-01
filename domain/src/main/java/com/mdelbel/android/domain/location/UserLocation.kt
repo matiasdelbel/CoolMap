@@ -3,7 +3,12 @@ package com.mdelbel.android.domain.location
 import com.mdelbel.android.domain.place.Country
 import com.mdelbel.android.domain.place.Location
 
-open class UserLocation(private val latitude: Double, private val longitude: Double, private val country: Country) {
+//TODO rename
+class UserLocation(
+    private val latitude: Double = 0.0,
+    private val longitude: Double = 0.0,
+    private val country: Country = Country()
+) {
 
     fun asLocation() = Location(latitude, longitude)
 

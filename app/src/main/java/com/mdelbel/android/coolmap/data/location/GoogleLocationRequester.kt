@@ -5,7 +5,6 @@ import android.location.Geocoder
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mdelbel.android.data.requester.LocationRequester
 import com.mdelbel.android.domain.location.UserLocation
-import com.mdelbel.android.domain.location.UserLocationNoFounded
 import com.mdelbel.android.domain.place.Country
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -48,7 +47,7 @@ class GoogleLocationRequester(
     }
 
     private fun publishNotFound() {
-        resultEmitter.onNext(UserLocationNoFounded)
+        resultEmitter.onError(IllegalStateException("Cannot find obtain current location."))
         resultEmitter.onComplete()
     }
 
