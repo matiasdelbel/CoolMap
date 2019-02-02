@@ -3,7 +3,7 @@ package com.mdelbel.android.coolmap.data.place
 import com.mdelbel.android.data.datasource.CityInfoDataSource
 import com.mdelbel.android.domain.place.city.CityInfo
 
-class ApiCityDataSource(private val retrofitClient: RetrofitClient = RetrofitClient) : CityInfoDataSource {
+class ApiCityInfoDataSource(private val retrofitClient: RetrofitClient = RetrofitClient) : CityInfoDataSource {
 
     override fun obtain(cityCode: String): CityInfo {
         val requestInterface = retrofitClient.createService(PlacesApi::class.java)

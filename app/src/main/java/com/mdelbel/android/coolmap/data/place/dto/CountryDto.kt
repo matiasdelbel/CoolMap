@@ -1,4 +1,4 @@
-package com.mdelbel.android.coolmap.data.place
+package com.mdelbel.android.coolmap.data.place.dto
 
 import com.mdelbel.android.domain.place.Country
 

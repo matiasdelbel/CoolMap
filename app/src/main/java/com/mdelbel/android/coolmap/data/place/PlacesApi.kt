@@ -1,5 +1,8 @@
 package com.mdelbel.android.coolmap.data.place
 
+import com.mdelbel.android.coolmap.data.place.dto.CityDetailDto
+import com.mdelbel.android.coolmap.data.place.dto.CityDto
+import com.mdelbel.android.coolmap.data.place.dto.CountryDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
