@@ -7,8 +7,8 @@ import com.mdelbel.android.data.requester.LocationRequester
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Country
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
 import android.location.Location as AndroidLocation
 
 // FIX: wrap Google dependency on a helper class
@@ -17,11 +17,11 @@ class GoogleLocationRequester(
     private val geoCoder: Geocoder
 ) : LocationRequester {
 
-    private lateinit var resultEmitter: ObservableEmitter<LocationOnCountry>
+    private lateinit var resultEmitter: SingleEmitter<LocationOnCountry>
 
     @Suppress("MissingPermission")
-    override fun requestLocation(): Observable<LocationOnCountry> {
-        val requestResult = Observable.create<LocationOnCountry> { resultEmitter = it }
+    override fun requestLocation(): Single<LocationOnCountry> {
+        val requestResult = Single.create<LocationOnCountry> { resultEmitter = it }
         locationClient.lastLocation.addOnSuccessListener { location: AndroidLocation? ->
             when {
                 isNotFounded(location) -> publishNotFound()
@@ -49,14 +49,12 @@ class GoogleLocationRequester(
 
     private fun publishNotFound() {
         resultEmitter.onError(IllegalStateException("Cannot find obtain current location."))
-        resultEmitter.onComplete()
     }
 
     private fun publish(address: Address) {
         val location = Location(address.latitude, address.longitude)
         val country = Country(address.countryCode, address.countryName)
 
-        resultEmitter.onNext(LocationOnCountry(location, country))
-        resultEmitter.onComplete()
+        resultEmitter.onSuccess(LocationOnCountry(location, country))
     }
 }
