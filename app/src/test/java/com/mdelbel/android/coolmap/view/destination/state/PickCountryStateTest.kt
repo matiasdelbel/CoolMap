@@ -1,7 +1,6 @@
-package com.mdelbel.android.coolmap.view.ddestination.state
+package com.mdelbel.android.coolmap.view.destination.state
 
 import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
-import com.mdelbel.android.coolmap.view.destination.state.PickCountryState
 import com.mdelbel.android.domain.place.Countries
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
