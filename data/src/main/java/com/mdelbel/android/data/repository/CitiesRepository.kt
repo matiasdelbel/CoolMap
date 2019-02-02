@@ -2,6 +2,7 @@ package com.mdelbel.android.data.repository
 
 import com.mdelbel.android.data.datasource.CacheCitiesDataSource
 import com.mdelbel.android.data.datasource.CitiesDataSource
+import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Country
 import com.mdelbel.android.domain.place.city.Cities
@@ -24,11 +25,19 @@ class CitiesRepository @Inject constructor(
         }
     }
 
-    fun obtainBy(userLocation: LocationOnCountry): Observable<City> {
+    fun obtainBy(location: LocationOnCountry): Observable<City> {
         return Observable.create {
             invokeIfIsOnCache(
-                ifCacheIsEmpty = { updateCachePublishingResult(userLocation, it) },
-                ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(userLocation)) })
+                ifCacheIsEmpty = { updateCachePublishingResult(location, it) },
+                ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(location)) })
+        }
+    }
+
+    fun obtainBy(location: Location): Observable<City> {
+        return Observable.create {
+            invokeIfIsOnCache(
+                ifCacheIsEmpty = { updateCachePublishingResult(location, it) },
+                ifCacheIsNotEmpty = { it.onNext(cache.obtainBy(location)) })
         }
     }
 
@@ -63,10 +72,19 @@ class CitiesRepository @Inject constructor(
         }
     }
 
-    private fun updateCachePublishingResult(userLocation: LocationOnCountry, emitter: ObservableEmitter<City>) {
+    private fun updateCachePublishingResult(location: LocationOnCountry, emitter: ObservableEmitter<City>) {
         try {
             cache.save(origin.obtainAll())
-            emitter.onNext(cache.obtainBy(userLocation))
+            emitter.onNext(cache.obtainBy(location))
+        } catch (e: Exception) {
+            emitter.onError(e)
+        }
+    }
+
+    private fun updateCachePublishingResult(location: Location, emitter: ObservableEmitter<City>) {
+        try {
+            cache.save(origin.obtainAll())
+            emitter.onNext(cache.obtainBy(location))
         } catch (e: Exception) {
             emitter.onError(e)
         }

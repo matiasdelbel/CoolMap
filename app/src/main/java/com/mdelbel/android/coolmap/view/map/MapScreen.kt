@@ -94,8 +94,9 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         map.setOnCameraIdleListener {
             val cameraPosition = map.cameraPosition
 
+
             viewModel.onNewCenter(Location(cameraPosition.target.latitude, cameraPosition.target.longitude))
-            viewModel.onNewZoomLevel(ZoomLevel(cameraPosition.zoom))
+            viewModel.onNewZoomLevel(Country(getExtraMapScreenInput().countryCode), ZoomLevel(cameraPosition.zoom))
         }
     }
 
