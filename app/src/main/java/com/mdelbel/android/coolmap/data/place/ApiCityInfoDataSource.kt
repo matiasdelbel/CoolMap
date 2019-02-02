@@ -8,7 +8,7 @@ class ApiCityInfoDataSource(private val retrofitClient: RetrofitClient = Retrofi
     override fun obtain(cityCode: String): CityInfo {
         val requestInterface = retrofitClient.createService(PlacesApi::class.java)
 
-        val response = requestInterface.getCityDetail(cityCode).execute()
+        val response = requestInterface.getCityInfo(cityCode).execute()
 
         if (response.isSuccessful) {
             val dto = response.body()

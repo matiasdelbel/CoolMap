@@ -13,7 +13,7 @@ interface PlacesApi {
     fun getCities(): Call<List<CityDetailDto>>
 
     @GET("cities/{id}")
-    fun getCityDetail(@Path("id") id: String): Call<CityDto>
+    fun getCityInfo(@Path("id") id: String): Call<CityDto>
 
     @GET("countries")
     fun getCountries(): Call<List<CountryDto>>
