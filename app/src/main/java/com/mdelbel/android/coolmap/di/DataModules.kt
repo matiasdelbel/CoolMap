@@ -8,9 +8,9 @@ import com.mdelbel.android.coolmap.data.permissions.MapPermissionsRequester
 import com.mdelbel.android.coolmap.data.place.ApiCityDataSource
 import com.mdelbel.android.coolmap.data.place.ApiCityDetailDataSource
 import com.mdelbel.android.coolmap.data.place.ApiCountryDataSource
-import com.mdelbel.android.data.repository.CityDetailRepository
-import com.mdelbel.android.data.repository.CityRepository
-import com.mdelbel.android.data.repository.CountryRepository
+import com.mdelbel.android.data.repository.CityInfoRepository
+import com.mdelbel.android.data.repository.CitiesRepository
+import com.mdelbel.android.data.repository.CountriesRepository
 import com.mdelbel.android.data.requester.LocationRequester
 import com.mdelbel.android.data.requester.PermissionsRequester
 import dagger.Module
@@ -43,19 +43,19 @@ class LocationProvider @Inject constructor(context: Context) {
 class CityProvider {
 
     @Provides
-    fun providesRepository(): CityRepository = CityRepository(origin = ApiCityDetailDataSource())
+    fun providesRepository(): CitiesRepository = CitiesRepository(origin = ApiCityDetailDataSource())
 }
 
 @Module
 class CountryProvider {
 
     @Provides
-    fun providesRepository(): CountryRepository = CountryRepository(origin = ApiCountryDataSource())
+    fun providesRepository(): CountriesRepository = CountriesRepository(origin = ApiCountryDataSource())
 }
 
 @Module
 class CityInformationProvider {
 
     @Provides
-    fun providesRepository(): CityDetailRepository = CityDetailRepository(origin = ApiCityDataSource())
+    fun providesRepository(): CityInfoRepository = CityInfoRepository(origin = ApiCityDataSource())
 }

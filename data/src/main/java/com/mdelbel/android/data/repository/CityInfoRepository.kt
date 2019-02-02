@@ -10,9 +10,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CityDetailRepository @Inject constructor(
-    private val cache: CacheCityInfoDataSource = CacheCityInfoDataSource(),
-    private val origin: CityInfoDataSource
+class CityInfoRepository @Inject constructor(
+    private val cache: CacheCityInfoDataSource = CacheCityInfoDataSource(), private val origin: CityInfoDataSource
 ) {
 
     fun obtainBy(cityCode: String): Observable<CityInfo> {
