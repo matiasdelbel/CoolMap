@@ -5,7 +5,5 @@ import com.mdelbel.android.domain.place.city.CityInfo
 
 class DisplayingCityInfoState(private val city: CityInfo) : MapViewState {
 
-    override fun render(view: MapView) {
-        view.showCityInformation(city)
-    }
+    override fun render(view: MapView) = view.showCityInformation(city)
 }

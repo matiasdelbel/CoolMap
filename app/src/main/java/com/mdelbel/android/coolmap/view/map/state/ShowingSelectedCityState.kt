@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.mdelbel.android.coolmap.view.map.MapView
 import com.mdelbel.android.domain.place.city.CityInfo
 
-class DisplayingCityState(private val city: CityInfo) : MapViewState {
+class ShowingSelectedCityState(private val city: CityInfo) : MapViewState {
 
     override fun render(view: MapView) {
         view.showCityInformation(city)

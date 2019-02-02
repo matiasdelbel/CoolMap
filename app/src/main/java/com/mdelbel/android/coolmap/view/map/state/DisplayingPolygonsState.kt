@@ -1,16 +1,16 @@
-package com.mdelbel.android.coolmap.view.map.render
+package com.mdelbel.android.coolmap.view.map.state
 
 import com.google.android.gms.maps.model.LatLng
 import com.mdelbel.android.coolmap.view.map.MapView
 import com.mdelbel.android.domain.place.city.Cities
 
-class PolygonCityRender : CityRenderStyle {
+class DisplayingPolygonsState(private val cities: Cities) : MapViewState {
 
-    override fun render(cities: Cities, view: MapView) {
+    override fun render(view: MapView) {
         val areas = mutableListOf<List<LatLng>>()
 
         cities.asCityCollection().forEach { city ->
-            city .asAreas().forEach { area ->
+            city.asAreas().forEach { area ->
                 val areaAsLatLng = mutableListOf<LatLng>()
                 area.asLocationCollection().forEach { location ->
                     areaAsLatLng.add(location.asLatLng())

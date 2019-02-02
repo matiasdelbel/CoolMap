@@ -2,7 +2,6 @@ package com.mdelbel.android.coolmap.view.map
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mdelbel.android.coolmap.view.map.render.PolygonCityRender
 import com.mdelbel.android.coolmap.view.map.state.*
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
@@ -28,14 +27,14 @@ class MapViewModel @Inject constructor(
     private var zoom = ZoomLevel()
 
     fun obtainGeolocationCityInformation(cityCode: String) {
-        obtainCityDetail(cityCode) { screenState.postValue(DisplayingCityState(it)) }
+        obtainCityDetail(cityCode) { screenState.postValue(ShowingSelectedCityState(it)) }
     }
 
     fun obtainCitiesFor(country: Country) {
         compositeDisposable.add(filterCitiesByCountryUseCase(country).subscribe(
             {
                 cities = it
-                screenState.postValue(DisplayingCitiesState(it, PolygonCityRender()))
+                screenState.postValue(DisplayingPolygonsState(cities))
             }, {})
         )
     }
