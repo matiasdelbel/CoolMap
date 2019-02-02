@@ -8,13 +8,16 @@ class ShowingSelectedCityState(private val city: CityInfo) : MapViewState {
 
     override fun render(view: MapView) {
         view.showCityInformation(city)
+        view.moveTo(cityAsLatLngCollection())
+    }
 
+    private fun cityAsLatLngCollection(): List<LatLng> {
         val cityAsCollectionOfLatLng = mutableListOf<LatLng>()
         city.asLocationCollection().forEach { location ->
             cityAsCollectionOfLatLng.add(location.asLatLng())
         }
 
-        view.moveTo(cityAsCollectionOfLatLng)
+        return cityAsCollectionOfLatLng
     }
 
 }

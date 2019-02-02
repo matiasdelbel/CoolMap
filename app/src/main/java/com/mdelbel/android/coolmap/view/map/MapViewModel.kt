@@ -20,7 +20,7 @@ class MapViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    internal val screenState = MutableLiveData<MapViewState>().apply { setValue(LoadingState()) }
+    internal val screenState = MutableLiveData<MapViewState>().apply { setValue(LoadingState) }
 
     private var selectedCity: CityInfo = NoCityInfo
     private var cities: Cities = Cities()
