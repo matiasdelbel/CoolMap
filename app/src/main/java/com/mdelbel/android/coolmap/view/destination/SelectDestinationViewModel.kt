@@ -6,8 +6,8 @@ import com.mdelbel.android.coolmap.view.destination.state.*
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.permissions.PermissionsDenied
 import com.mdelbel.android.domain.permissions.PermissionsGranted
-import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.Country
+import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.city.NonExistentCity
 import com.mdelbel.android.usecases.location.ObtainLocation
 import com.mdelbel.android.usecases.permissions.AskLocationPermissions
@@ -26,9 +26,9 @@ class SelectDestinationViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    private val stackMemento = StateStack()
+    private val stateStack = StateStack()
 
-    internal val screenState = MutableLiveData<DestinationViewState>().apply { setValue(LoadingState()) }
+    internal val screenState = MutableLiveData<DestinationViewState>().apply { setValue(LoadingState) }
 
     fun askPermissions() = compositeDisposable.add(askPermissionAndListenerResponse())
 
@@ -40,12 +40,10 @@ class SelectDestinationViewModel @Inject constructor(
     }
 
     fun countrySelected(country: Country) {
-        screenState.postValue(LoadingState())
+        screenState.postValue(LoadingState)
         compositeDisposable.add(
             filterCitiesByCountryUseCase(country)
-                .subscribe({
-                    publishStateQueueing(PickCityState(it))
-                }, { publishError(NoCitiesFoundedErrorState) })
+                .subscribe({ publishStateQueueing(PickCityState(it)) }, { publishError(NoCitiesFoundedErrorState) })
         )
     }
 
@@ -53,7 +51,7 @@ class SelectDestinationViewModel @Inject constructor(
 
     private fun selectGeolocationCityIfCan() = compositeDisposable.add(requestLocationAndListenerResponse())
 
-    fun returnsStateBefore() = screenState.postValue(stackMemento.dequeue())
+    fun restoreToStateBefore() = screenState.postValue(stateStack.dequeue())
 
     private fun requestLocationAndListenerResponse() = obtainLocationUseCase().subscribe(
         { compositeDisposable.add(requestCitiesForLocationAndListenerResponse(it)) },
@@ -70,7 +68,7 @@ class SelectDestinationViewModel @Inject constructor(
         })
 
     private fun requestAvailableCountries() {
-        screenState.postValue(LoadingState())
+        screenState.postValue(LoadingState)
         compositeDisposable.add(
             obtainCountriesUseCase()
                 .subscribe(
@@ -82,7 +80,7 @@ class SelectDestinationViewModel @Inject constructor(
     private fun notifyCitySelection(city: City) = screenState.postValue(CitySelectedState(city))
 
     private fun publishStateQueueing(viewState: DestinationViewState) {
-        stackMemento.queue(viewState)
+        stateStack.queue(viewState)
         screenState.postValue(viewState)
     }
 

@@ -16,9 +16,9 @@ import com.mdelbel.android.coolmap.data.permissions.RequesterActivityBinder
 import com.mdelbel.android.coolmap.view.destination.state.DestinationViewState
 import com.mdelbel.android.coolmap.view.destination.state.MessageError
 import com.mdelbel.android.coolmap.view.map.MapScreen
+import com.mdelbel.android.domain.place.Countries
 import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.city.City
-import com.mdelbel.android.domain.place.Countries
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -43,16 +43,10 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_destination)
-        listView = findViewById<RecyclerView>(R.id.screen_main_list).apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this.context)
-            adapter = viewAdapter
-        }
-        loadingView = findViewById(R.id.screen_main_loading)
-        errorView = findViewById(R.id.screen_main_error)
 
+        initViews()
         attachRequesterToActivity()
-        viewModel.screenState.observe(this, Observer<DestinationViewState> { it.render(this@SelectDestinationScreen) })
+        observeViewModelState()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -62,27 +56,32 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         }
     }
 
-    override fun onBackPressed() {
-        viewModel.returnsStateBefore()
-    }
+    override fun onBackPressed() = viewModel.restoreToStateBefore()
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) =
         permissionRequester.onRequestPermissionsResult(requestCode, grantResults)
+
+    private fun initViews() {
+        listView = findViewById<RecyclerView>(R.id.screen_main_list).apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this.context)
+            adapter = viewAdapter
+        }
+        loadingView = findViewById(R.id.screen_main_loading)
+        errorView = findViewById(R.id.screen_main_error)
+    }
 
     private fun attachRequesterToActivity() {
         requesterActivityBinder = RequesterActivityBinder(permissionRequester, this)
         lifecycle.addObserver(requesterActivityBinder)
     }
 
-    override fun loading() {
-        loadingView.visibility = View.VISIBLE
-        errorView.visibility = View.GONE
-        listView.visibility = View.GONE
-    }
+    private fun observeViewModelState() =
+        viewModel.screenState.observe(this, Observer<DestinationViewState> { it.render(this@SelectDestinationScreen) })
 
-    override fun goToMap(selected: City) {
-        finish()
-        MapScreen.start(this, selected)
+    override fun loading() {
+        changeVisibility(View.GONE, listView, errorView)
+        changeVisibility(View.VISIBLE, loadingView)
     }
 
     override fun showCountries(countries: Countries) {
@@ -95,21 +94,28 @@ class SelectDestinationScreen : AppCompatActivity(), SelectDestinationView {
         showList(factory.createFrom(cities) { viewModel.citySelected(factory.extractCity(it)) })
     }
 
-    override fun showError(message: MessageError) {
-        errorView.visibility = View.VISIBLE
-        errorView.text = message.show(this)
+    override fun goToMap(selected: City) {
+        MapScreen.start(this, selected)
+        exit()
+    }
 
-        loadingView.visibility = View.GONE
-        listView.visibility = View.GONE
+    override fun showError(message: MessageError) {
+        changeVisibility(View.GONE, loadingView, listView)
+        changeVisibility(View.VISIBLE, errorView)
+
+        errorView.text = message.show(this)
     }
 
     override fun exit() = finish()
 
     private fun showList(itemModels: List<ItemViewModel>) {
-        loadingView.visibility = View.GONE
-        errorView.visibility = View.GONE
+        changeVisibility(View.GONE, loadingView, errorView)
+        changeVisibility(View.VISIBLE, listView)
 
-        listView.visibility = View.VISIBLE
         viewAdapter.submitList(itemModels)
+    }
+
+    private fun changeVisibility(visibility: Int, vararg views: View) {
+        views.forEach { view -> view.visibility = visibility }
     }
 }

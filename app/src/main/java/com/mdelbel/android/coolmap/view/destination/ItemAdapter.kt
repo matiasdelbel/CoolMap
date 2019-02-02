@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mdelbel.android.coolmap.R
 
-class ItemAdapter : ListAdapter<ItemViewModel, ItemAdapter.MyViewHolder>(DiffCallback()) {
+class ItemAdapter : ListAdapter<ItemViewModel, ItemAdapter.ItemViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_info, parent, false)
-        return MyViewHolder(view)
+        return ItemViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) = holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) = holder.bind(getItem(position))
 
-    class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(item: ItemViewModel) {
             view.findViewById<TextView>(R.id.item_info_code).text = item.code

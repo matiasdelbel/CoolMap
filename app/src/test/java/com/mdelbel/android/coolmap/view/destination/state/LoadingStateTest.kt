@@ -10,9 +10,8 @@ class LoadingStateTest {
     @Test
     fun `render should call loading on view`() {
         val view = mock(SelectDestinationView::class.java)
-        val loadingState = LoadingState()
 
-        loadingState.render(view)
+        LoadingState.render(view)
 
         verify(view).loading()
     }
