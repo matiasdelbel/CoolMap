@@ -43,11 +43,10 @@ class MapViewModel @Inject constructor(
         )
     }
 
-    fun onNewCenter(center: Location) {
+    fun onNewCenter(country: Country, center: Location) {
         compositeDisposable.add(
-            obtainCityNearToLocationUseCase(center).subscribe({ nearCity ->
-                selectedCity.invokeIfIsMe(
-                    nearCity,
+            obtainCityNearToLocationUseCase(country, center).subscribe({ nearCity ->
+                selectedCity.invokeIfIsMe(nearCity,
                     ifIsNotMe = { obtainCityDetail(nearCity.code()) { screenState.postValue(DisplayingCityInfoState(it)) } })
             }, {})
         )

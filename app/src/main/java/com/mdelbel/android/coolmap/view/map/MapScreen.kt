@@ -93,10 +93,10 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     private fun observeCameraChanges() {
         map.setOnCameraIdleListener {
             val cameraPosition = map.cameraPosition
+            val country = Country(getExtraMapScreenInput().countryCode)
 
-
-            viewModel.onNewCenter(Location(cameraPosition.target.latitude, cameraPosition.target.longitude))
-            viewModel.onNewZoomLevel(Country(getExtraMapScreenInput().countryCode), ZoomLevel(cameraPosition.zoom))
+            viewModel.onNewCenter(country, Location(cameraPosition.target.latitude, cameraPosition.target.longitude))
+            viewModel.onNewZoomLevel(country, ZoomLevel(cameraPosition.zoom))
         }
     }
 

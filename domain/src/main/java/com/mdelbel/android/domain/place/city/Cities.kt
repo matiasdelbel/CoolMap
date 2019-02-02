@@ -8,11 +8,11 @@ class Cities(private val cities: List<City> = emptyList()) {
 
     fun asCityCollection() = cities
 
-    fun obtainNearTo(location: Location): City {
+    fun obtainNearTo(country: Country, location: Location): City {
         var nearCity: City = NonExistentCity
         var nearCityDistance = Double.MAX_VALUE
 
-        cities.forEach {
+        obtainOn(country).cities.forEach {
             val distanceToLocation = it.distanceTo(location)
             if (distanceToLocation < nearCityDistance) {
                 nearCity = it

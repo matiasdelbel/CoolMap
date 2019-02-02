@@ -15,7 +15,7 @@ class CacheCitiesDataSource(private var citiesCache: Cities = Cities()) : Cities
 
     internal fun obtainBy(location: LocationOnCountry) = citiesCache.obtainOn(location)
 
-    internal fun obtainBy(location: Location) = citiesCache.obtainNearTo(location)
+    internal fun obtainBy(country: Country, location: Location) = citiesCache.obtainNearTo(country, location)
 
     internal fun obtainBy(country: Country) = citiesCache.obtainOn(country)
 }
