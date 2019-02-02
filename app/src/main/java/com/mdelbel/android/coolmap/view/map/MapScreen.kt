@@ -25,8 +25,8 @@ import com.mdelbel.android.coolmap.view.map.state.MapViewState
 import com.mdelbel.android.coolmap.view.map.state.MessageError
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
-import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.Country
+import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.city.CityInfo
 import dagger.android.AndroidInjection
@@ -83,10 +83,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         map.setOnCameraIdleListener {
             val cameraPosition = map.cameraPosition
 
-            val center = Location(
-                cameraPosition.target.latitude,
-                cameraPosition.target.longitude
-            )
+            val center = Location(cameraPosition.target.latitude, cameraPosition.target.longitude)
             viewModel.onNewCenter(center)
 
             viewModel.onNewZoomLevel(ZoomLevel(cameraPosition.zoom))
@@ -97,8 +94,7 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         map.setOnMarkerClickListener {
             viewModel.obtainCitiesFor(
                 LocationOnCountry(
-                    Location(it.position.latitude, it.position.longitude),
-                    Country(code = extra.countryCode)
+                    Location(it.position.latitude, it.position.longitude), Country(code = extra.countryCode)
                 )
             )
             true
@@ -110,38 +106,29 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     }
 
     override fun showCityInformation(city: CityInfo) {
-        nameView.visibility = View.VISIBLE
         nameView.text = city.name()
-        countryView.visibility = View.VISIBLE
         countryView.text = city.countryCode()
-        currencyView.visibility = View.VISIBLE
         currencyView.text = city.currency()
-        languageView.visibility = View.VISIBLE
         languageView.text = city.language()
 
-        errorView.visibility = View.GONE
-        loadingView.visibility = View.GONE
+        changeVisibility(View.VISIBLE, nameView, countryView, currencyView, languageView)
+        changeVisibility(View.GONE, errorView, loadingView)
     }
 
     override fun showWorkingAreas(areas: List<List<LatLng>>) {
         map.clear()
         for (area in areas) {
             map.addPolygon(
-                PolygonOptions()
-                    .addAll(area)
+                PolygonOptions().addAll(area).strokeWidth(0.0f)
                     .fillColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
-                    .strokeWidth(0.0f)
             )
         }
     }
 
     override fun showCities(cities: Cities) {
         map.clear()
-        for (city in cities.asCityCollection()) {
-            map.addMarker(MarkerOptions().position(city.center().asLatLng()))
-        }
+        cities.asCityCollection().forEach { city -> map.addMarker(MarkerOptions().position(city.center().asLatLng())) }
     }
-
 
     override fun moveTo(locations: List<LatLng>) {
         val zoom = 10
@@ -154,24 +141,19 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     }
 
     override fun loading() {
-        nameView.visibility = View.GONE
-        countryView.visibility = View.GONE
-        currencyView.visibility = View.GONE
-        languageView.visibility = View.GONE
-        errorView.visibility = View.GONE
-
-        loadingView.visibility = View.VISIBLE
+        changeVisibility(View.GONE, nameView, countryView, currencyView, languageView, errorView)
+        changeVisibility(View.VISIBLE, loadingView)
     }
 
     override fun showError(error: MessageError) {
-        nameView.visibility = View.GONE
-        countryView.visibility = View.GONE
-        currencyView.visibility = View.GONE
-        languageView.visibility = View.GONE
-        loadingView.visibility = View.GONE
-
-        errorView.visibility = View.VISIBLE
         errorView.text = error.show(this)
+
+        changeVisibility(View.GONE, nameView, countryView, currencyView, languageView, loadingView)
+        changeVisibility(View.VISIBLE, errorView)
+    }
+
+    private fun changeVisibility(visibility: Int, vararg views: View) {
+        views.forEach { view -> view.visibility = visibility }
     }
 }
 

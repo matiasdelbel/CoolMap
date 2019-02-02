@@ -12,7 +12,7 @@ class CitySelectedStateTest {
     @Test
     fun `render should call go to map on view`() {
         val view = Mockito.mock(SelectDestinationView::class.java)
-        val city = City()
+        val city = City("", "", "")
         val citySelectedState = CitySelectedState(city)
 
         citySelectedState.render(view)
