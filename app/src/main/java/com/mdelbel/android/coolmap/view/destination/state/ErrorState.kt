@@ -6,9 +6,8 @@ import com.mdelbel.android.coolmap.view.destination.SelectDestinationView
 
 abstract class ErrorState(private val message: MessageError) : DestinationViewState {
 
-    override fun render(view: SelectDestinationView) {
-        view.showError(message)
-    }
+    override fun render(view: SelectDestinationView) = view.showError(message)
+
 }
 
 object NoCitiesFoundedErrorState : ErrorState(MessageError(R.string.select_destination_error_cities_not_found))

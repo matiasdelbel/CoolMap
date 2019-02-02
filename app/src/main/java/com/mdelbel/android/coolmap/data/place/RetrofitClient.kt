@@ -13,4 +13,4 @@ object RetrofitClient {
     fun <T> createService(service: Class<T>): T = requestInterface.create(service)
 }
 
-private const val BASE_URL = "http://192.168.0.105:3000/api/"
+private const val BASE_URL = "http://192.168.0.107:3000/api/"

@@ -26,14 +26,12 @@ import com.mdelbel.android.coolmap.view.map.state.MessageError
 import com.mdelbel.android.domain.location.Location
 import com.mdelbel.android.domain.location.LocationOnCountry
 import com.mdelbel.android.domain.place.Country
-import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.city.City
 import com.mdelbel.android.domain.place.city.CityInfo
 import dagger.android.AndroidInjection
 import kotlinx.android.parcel.Parcelize
 import javax.inject.Inject
 
-//TODO rotar pincha
 class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
 
     companion object {
@@ -62,8 +60,12 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.screen_map)
 
+        setContentView(R.layout.screen_map)
+        initViews()
+    }
+
+    private fun initViews() {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.screen_map_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -73,37 +75,31 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         languageView = findViewById(R.id.panel_city_information_language)
         errorView = findViewById(R.id.panel_city_information_error)
         loadingView = findViewById(R.id.panel_city_information_progress_bar)
-
-        viewModel.screenState.observe(this, Observer<MapViewState> { it.render(this@MapScreen) })
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
+        observeViewModelState()
+        observeCameraChanges()
+
+        viewModel.obtainGeolocationCityInformation(getExtraMapScreenInput().selectedCityCode)
+        viewModel.obtainCitiesFor(Country(code = getExtraMapScreenInput().countryCode))
+    }
+
+    private fun observeViewModelState() =
+        viewModel.screenState.observe(this, Observer<MapViewState> { it.render(this@MapScreen) })
+
+    private fun observeCameraChanges() {
         map.setOnCameraIdleListener {
             val cameraPosition = map.cameraPosition
 
-            val center = Location(cameraPosition.target.latitude, cameraPosition.target.longitude)
-            viewModel.onNewCenter(center)
-
+            viewModel.onNewCenter(Location(cameraPosition.target.latitude, cameraPosition.target.longitude))
             viewModel.onNewZoomLevel(ZoomLevel(cameraPosition.zoom))
         }
-
-        val extra = intent.getParcelableExtra<MapScreenInput>(EXTRA_MAP_INPUT)
-
-        map.setOnMarkerClickListener {
-            viewModel.obtainCitiesFor(
-                LocationOnCountry(
-                    Location(it.position.latitude, it.position.longitude), Country(code = extra.countryCode)
-                )
-            )
-            true
-        }
-
-
-        viewModel.obtainGeolocationCityInformation(extra.selectedCityCode)
-        viewModel.obtainCitiesFor(Country(code = extra.countryCode))
     }
+
+    private fun getExtraMapScreenInput() = intent.getParcelableExtra<MapScreenInput>(EXTRA_MAP_INPUT)
 
     override fun showCityInformation(city: CityInfo) {
         nameView.text = city.name()
@@ -119,25 +115,35 @@ class MapScreen : AppCompatActivity(), OnMapReadyCallback, MapView {
         map.clear()
         for (area in areas) {
             map.addPolygon(
-                PolygonOptions().addAll(area).strokeWidth(0.0f)
+                PolygonOptions()
+                    .addAll(area).strokeWidth(0.0f)
                     .fillColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
             )
         }
     }
 
-    override fun showCities(cities: Cities) {
+    override fun showMarkers(points: List<LatLng>) {
         map.clear()
-        cities.asCityCollection().forEach { city -> map.addMarker(MarkerOptions().position(city.center().asLatLng())) }
+        points.forEach { point -> map.addMarker(MarkerOptions().position(point)) }
+
+        map.setOnMarkerClickListener {
+            viewModel.obtainCitiesFor(
+                LocationOnCountry(
+                    Location(it.position.latitude, it.position.longitude),
+                    Country(code = getExtraMapScreenInput().countryCode)
+                )
+            )
+            true
+        }
     }
 
     override fun moveTo(locations: List<LatLng>) {
-        val zoom = 10
         var latLngBoundsBuilder = LatLngBounds.Builder()
         for (location in locations) {
             latLngBoundsBuilder = latLngBoundsBuilder.include(location)
         }
 
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBoundsBuilder.build(), zoom))
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBoundsBuilder.build(), 10))
     }
 
     override fun loading() {

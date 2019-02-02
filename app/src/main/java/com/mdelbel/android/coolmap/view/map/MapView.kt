@@ -2,7 +2,6 @@ package com.mdelbel.android.coolmap.view.map
 
 import com.google.android.gms.maps.model.LatLng
 import com.mdelbel.android.coolmap.view.map.state.MessageError
-import com.mdelbel.android.domain.place.city.Cities
 import com.mdelbel.android.domain.place.city.CityInfo
 
 interface MapView {
@@ -11,7 +10,7 @@ interface MapView {
 
     fun showWorkingAreas(areas: List<List<LatLng>>)
 
-    fun showCities(cities: Cities)
+    fun showMarkers(points: List<LatLng>)
 
     fun moveTo(locations: List<LatLng>)
 
